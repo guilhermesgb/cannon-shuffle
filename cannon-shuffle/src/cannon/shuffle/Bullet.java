@@ -2,6 +2,7 @@ package cannon.shuffle;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class Bullet extends GameEntity{
@@ -34,4 +35,10 @@ public abstract class Bullet extends GameEntity{
 	 * Returns the specific explosion type that this Bullet causes at the right position;
 	 */
 	public abstract Explosion getExplosion(boolean lerpWithTarget, Vector2 targetPosition, float factor);
+	
+	public void remove(){
+		for ( Fixture f : body.getFixtureList() ){
+			body.destroyFixture(f);
+		}
+	}
 }

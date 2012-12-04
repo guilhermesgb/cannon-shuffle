@@ -42,10 +42,6 @@ public class EnemyBullet extends Bullet{
 		
 	}
 
-	public void remove() {
-		body.destroyFixture(body.getFixtureList().get(0));
-	}
-
 	public void update(){
 		super.update();
 		body.setLinearVelocity(new Vector2(0,-4.0f));

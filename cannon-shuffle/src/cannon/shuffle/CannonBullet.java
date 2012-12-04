@@ -43,10 +43,6 @@ public class CannonBullet extends Bullet {
 		specificType = CannonShuffle.CANNON_BULLET;
 	}
 
-	public void remove() {
-		body.destroyFixture(body.getFixtureList().get(0));
-	}
-
 	public void update(){
 		super.update();
 		wrapper.setRotation(body.getAngle()*MathUtils.radiansToDegrees);

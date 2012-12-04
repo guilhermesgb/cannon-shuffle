@@ -51,18 +51,13 @@ public class CannonShuffle implements ApplicationListener{
 	public static final String BARREL_PART = "BarrelPart";
 	public static final String SHIELD_PART = "ShieldPart";
 	
-	//Super Type
+	public static Array<Bullet> bullets = new Array<Bullet>();
+	//General Type
 	public static final String BULLET = "Bullet";
-	
-	public static Array<CannonBullet> cannon_bullets = new Array<CannonBullet>();
-	//General Type
+	//Specific Types
 	public static final String CANNON_BULLET = "CannonBullet";
-	//Specific Types
-
-	public static Array<EnemyBullet> enemy_bullets = new Array<EnemyBullet>();
-	//General Type
 	public static final String ENEMY_BULLET = "EnemyBullet";
-	//Specific Types
+	//Even More Specific Types
 	public static final String ICE_BULLET = "IceBullet";
 	
 	public static Array<Explosion> explosions = new Array<Explosion>();
@@ -107,7 +102,7 @@ public class CannonShuffle implements ApplicationListener{
 
 		cannon = new Cannon(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), (Constants.WALL_HEIGHT)+(Constants.CANNON_CIRCLE_RADIUS+Constants.CANNON_RECT_HEIGHT)/2));
 		barrel = new Barrel(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), Constants.CANNON_RECT_HEIGHT+(Constants.WALL_HEIGHT)));
-		cannon_bullets = new Array<CannonBullet>();
+		bullets = new Array<Bullet>();
 
 		enemies = new Array<Enemy>();
 		explosions = new Array<Explosion>();
@@ -146,9 +141,9 @@ public class CannonShuffle implements ApplicationListener{
 			p.update();
 		}
 		
-		Iterator<CannonBullet> itr = cannon_bullets.iterator();
+		Iterator<Bullet> itr = bullets.iterator();
 		while ( itr.hasNext() ){
-			CannonBullet b = itr.next();
+			Bullet b = itr.next();
 			if ( b.destroyed ){
 				itr.remove();
 				b.remove();
@@ -176,7 +171,7 @@ public class CannonShuffle implements ApplicationListener{
 			}
 		}
 
-		barrel.update(world, batch, cannon, cannon_bullets, camera);
+		barrel.update(world, batch, cannon, bullets, camera);
 		batch.end();
 
 		if ( Gdx.input.isKeyPressed(Keys.ESCAPE)){

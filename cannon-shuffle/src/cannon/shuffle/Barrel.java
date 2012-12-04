@@ -138,7 +138,7 @@ public class Barrel{
 		return ratio;
 	}
 	
-	public void update(World world, SpriteBatch batch, Cannon cannon, Array<CannonBullet> bullets, OrthographicCamera camera){
+	public void update(World world, SpriteBatch batch, Cannon cannon, Array<Bullet> bullets, OrthographicCamera camera){
 
 		wrapper_barrel.setPosition(GameEntity.convertToWorld(barrel_body.getPosition().x),GameEntity.convertToWorld(barrel_body.getPosition().y));
 		wrapper_barrel.setRotation(barrel_body.getAngle()*MathUtils.radiansToDegrees);
