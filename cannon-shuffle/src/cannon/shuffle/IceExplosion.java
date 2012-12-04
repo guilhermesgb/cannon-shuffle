@@ -17,7 +17,7 @@ public class IceExplosion extends Explosion{
 	int current_column= 0;
 
 	public IceExplosion(Vector2 position){
-		Vector2 converted = new Vector2(BaseBoxObject.convertToWorld(position.x), BaseBoxObject.convertToWorld(position.y));
+		Vector2 converted = new Vector2(GameEntity.convertToWorld(position.x), GameEntity.convertToWorld(position.y));
 
 		wrapper = new TextureWrapper[SPRITES_ROW][SPRITES_COLUMN];
 		

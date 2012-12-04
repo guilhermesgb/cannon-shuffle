@@ -30,10 +30,10 @@ public class Cannon extends GameEntity{
 	private void createCannon(TextureWrapper texture, Vector2 pos, float density, float restitution, float angle) {
 
 		CircleShape circleShape = new CircleShape();
-		circleShape.setRadius(BaseBoxObject.convertToBox(Constants.CANNON_CIRCLE_RADIUS));
+		circleShape.setRadius(GameEntity.convertToBox(Constants.CANNON_CIRCLE_RADIUS));
 		
 		PolygonShape rectShape = new PolygonShape();
-		rectShape.setAsBox(BaseBoxObject.convertToBox(Constants.CANNON_RECT_WIDTH/2f), BaseBoxObject.convertToBox(Constants.CANNON_RECT_HEIGHT/2f));
+		rectShape.setAsBox(GameEntity.convertToBox(Constants.CANNON_RECT_WIDTH/2f), GameEntity.convertToBox(Constants.CANNON_RECT_HEIGHT/2f));
 		
 		FixtureDef fixtureDef=new FixtureDef();
 

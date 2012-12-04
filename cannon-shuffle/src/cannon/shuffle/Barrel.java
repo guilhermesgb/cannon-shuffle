@@ -72,7 +72,7 @@ public class Barrel{
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.KinematicBody;
-		bodyDef.position.set(BaseBoxObject.convertToBox(pos.x), BaseBoxObject.convertToBox(pos.y));
+		bodyDef.position.set(GameEntity.convertToBox(pos.x), GameEntity.convertToBox(pos.y));
 		bodyDef.angle=angle;
 		shield_body = world.createBody(bodyDef);
 		barrel_body = world.createBody(bodyDef);
@@ -98,18 +98,18 @@ public class Barrel{
 		Vector2 positionArc[]=new Vector2[arcResolution];
 		positionArc[0]=new Vector2(0,0);
 		double nTheta=-theta;
-		float radius=BaseBoxObject.convertToBox(Constants.BARREL_CIRCLE_RADIUS);
+		float radius=GameEntity.convertToBox(Constants.BARREL_CIRCLE_RADIUS);
 		for(int i=1; i<arcResolution-1;i++,nTheta+=theta/(arcResolution-2)){
 			positionArc[i]=new Vector2(radius*(float)Math.sin(nTheta/2),radius*(float)Math.cos(nTheta/2));
 		}
 		positionArc[arcResolution-1]=new Vector2(0,0);
 		chainShape.createLoop(positionArc);
 		PolygonShape rectShape1 = new PolygonShape();
-		rectShape1.setAsBox(BaseBoxObject.convertToBox(Constants.BARREL_RECT_WIDTH/2f), BaseBoxObject.convertToBox(Constants.BARREL_RECT_HEIGHT/2f),
-				new Vector2(0,BaseBoxObject.convertToBox(Constants.BARREL_CIRCLE_RADIUS+Constants.BARREL_RECT_HEIGHT/2f)),0);
+		rectShape1.setAsBox(GameEntity.convertToBox(Constants.BARREL_RECT_WIDTH/2f), GameEntity.convertToBox(Constants.BARREL_RECT_HEIGHT/2f),
+				new Vector2(0,GameEntity.convertToBox(Constants.BARREL_CIRCLE_RADIUS+Constants.BARREL_RECT_HEIGHT/2f)),0);
 		PolygonShape rectShape2 = new PolygonShape();
-		rectShape2.setAsBox(BaseBoxObject.convertToBox(Constants.BARREL_RECT_WIDTH/2f), BaseBoxObject.convertToBox(Constants.BARREL_RECT_HEIGHT/2f),
-			new Vector2(0,BaseBoxObject.convertToBox(Constants.BARREL_CIRCLE_RADIUS+Constants.BARREL_RECT_HEIGHT*3/2)),0);
+		rectShape2.setAsBox(GameEntity.convertToBox(Constants.BARREL_RECT_WIDTH/2f), GameEntity.convertToBox(Constants.BARREL_RECT_HEIGHT/2f),
+			new Vector2(0,GameEntity.convertToBox(Constants.BARREL_CIRCLE_RADIUS+Constants.BARREL_RECT_HEIGHT*3/2)),0);
 		
 		FixtureDef fixtureDef=new FixtureDef();
 
@@ -140,9 +140,9 @@ public class Barrel{
 	
 	public void update(World world, SpriteBatch batch, Cannon cannon, Array<CannonBullet> bullets, OrthographicCamera camera){
 
-		wrapper_barrel.setPosition(BaseBoxObject.convertToWorld(barrel_body.getPosition().x),BaseBoxObject.convertToWorld(barrel_body.getPosition().y));
+		wrapper_barrel.setPosition(GameEntity.convertToWorld(barrel_body.getPosition().x),GameEntity.convertToWorld(barrel_body.getPosition().y));
 		wrapper_barrel.setRotation(barrel_body.getAngle()*MathUtils.radiansToDegrees);
-		wrapper_shield.setPosition(BaseBoxObject.convertToWorld(shield_body.getPosition().x),BaseBoxObject.convertToWorld(shield_body.getPosition().y));
+		wrapper_shield.setPosition(GameEntity.convertToWorld(shield_body.getPosition().x),GameEntity.convertToWorld(shield_body.getPosition().y));
 		wrapper_shield.setRotation(shield_body.getAngle()*MathUtils.radiansToDegrees);
 		
 		float chargeRatio = 0f;
@@ -176,8 +176,8 @@ public class Barrel{
 			target_angle=-barrelSizeRadians;
 			
 		Vector2 cannon_semicircle_center=cannon.body.getWorldCenter();
-		cannon_semicircle_center.x=BaseBoxObject.convertToWorld(cannon_semicircle_center.x);
-		cannon_semicircle_center.y=BaseBoxObject.convertToWorld(cannon_semicircle_center.y);
+		cannon_semicircle_center.x=GameEntity.convertToWorld(cannon_semicircle_center.x);
+		cannon_semicircle_center.y=GameEntity.convertToWorld(cannon_semicircle_center.y);
 		cannon_semicircle_center.y+=Constants.CANNON_CIRCLE_RADIUS;
 		
 		float da=target_angle-angle;
@@ -189,8 +189,8 @@ public class Barrel{
 			if(has_shot){
 				Vector2 bullet_pos=barrel_body.getPosition();
 				
-				bullet_pos.x=BaseBoxObject.convertToWorld(bullet_pos.x);
-				bullet_pos.y=BaseBoxObject.convertToWorld(bullet_pos.y);
+				bullet_pos.x=GameEntity.convertToWorld(bullet_pos.x);
+				bullet_pos.y=GameEntity.convertToWorld(bullet_pos.y);
 				
 				float offset=5.0f+(Constants.BARREL_HEIGHT/2+Constants.BULLET_HEIGHT/2);
 				bullet_pos.x+=offset*-Math.sin(angle);
@@ -198,7 +198,7 @@ public class Barrel{
 				
 				CannonBullet bullet = new CannonBullet(world, bullet_pos, angle);
 				bullets.add(bullet);
-				cannon_semicircle_center=new Vector2(BaseBoxObject.convertToBox(cannon_semicircle_center.x),BaseBoxObject.convertToBox(cannon_semicircle_center.y));
+				cannon_semicircle_center=new Vector2(GameEntity.convertToBox(cannon_semicircle_center.x),GameEntity.convertToBox(cannon_semicircle_center.y));
 				float speed = Constants.BULLET_SPEED*power > Constants.MAX_BULLET_SPEED ? Constants.MAX_BULLET_SPEED : Constants.BULLET_SPEED*power;
 				Vector2 velocity=new Vector2((float)(speed*-Math.sin(angle)), (float)(speed*Math.cos(angle)));
 				bullet.body.setLinearVelocity(velocity);
@@ -222,8 +222,8 @@ public class Barrel{
 	public void move(Vector3 touchPos, Cannon cannon){
 
 		Vector2 cannon_semicircle_center=cannon.body.getWorldCenter();
-		cannon_semicircle_center.x=BaseBoxObject.convertToWorld(cannon_semicircle_center.x);
-		cannon_semicircle_center.y=BaseBoxObject.convertToWorld(cannon_semicircle_center.y);
+		cannon_semicircle_center.x=GameEntity.convertToWorld(cannon_semicircle_center.x);
+		cannon_semicircle_center.y=GameEntity.convertToWorld(cannon_semicircle_center.y);
 		cannon_semicircle_center.y+=Constants.CANNON_CIRCLE_RADIUS;
 		target_angle=(float)(Math.PI/2+Math.atan2((double)cannon_semicircle_center.y-touchPos.y,(double)cannon_semicircle_center.x-touchPos.x));
 	}
