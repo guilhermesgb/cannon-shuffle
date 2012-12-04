@@ -49,8 +49,8 @@ public class Barrel{
 		public BarrelPart(BodyType bodyType, Vector2 pos, float angle,
 				World world) {
 			super(bodyType, pos, angle, world);
-			generalType = "BarrelPart";
-			specificType = "BarrelPart";
+			generalType = CannonShuffle.BARREL_PART;
+			specificType = CannonShuffle.BARREL_PART;
 		}
 	}
 	class ShieldPart extends GameEntity{
@@ -59,8 +59,8 @@ public class Barrel{
 		public ShieldPart(BodyType bodyType, Vector2 pos, float angle,
 				World world) {
 			super(bodyType, pos, angle, world);
-			generalType = "ShieldPart";
-			specificType = "ShieldPart";
+			generalType = CannonShuffle.SHIELD_PART;
+			specificType = CannonShuffle.SHIELD_PART;
 			
 		}
 	}

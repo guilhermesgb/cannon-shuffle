@@ -12,12 +12,18 @@ public class CollisionSystem implements ContactListener{
 	Object A, B;
 	
 	public boolean testCollision(String C1, String C2, GameEntity A, GameEntity B){
-		if ( ((A.getClass().getSimpleName().equals(C1)) && (B.getClass().getSimpleName().equals(C2))) ){
+		System.out.println("A: "+A.getClass().getSimpleName());
+		System.out.println("generic: "+A.generalType);
+		System.out.println("specific: "+A.specificType);
+		System.out.println("B: "+B.getClass().getSimpleName());
+		System.out.println("generic: "+B.generalType);
+		System.out.println("specific: "+B.specificType);
+		if ( ((A.hasType(C1)) && (B.hasType(C2))) ){
 			this.A = A;
 			this.B = B;
 			return true;
 		}
-		else if ((A.getClass().getSimpleName().equals(C2)) && (B.getClass().getSimpleName().equals(C1)) ){
+		else if ((A.hasType(C2)) && (B.hasType(C1)) ){
 			this.A = B;
 			this.B = A;
 			return true;

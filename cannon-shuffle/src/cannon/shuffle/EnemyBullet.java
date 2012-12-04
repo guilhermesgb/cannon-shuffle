@@ -38,6 +38,8 @@ public class EnemyBullet extends Bullet{
 		
 		body.setUserData(this);
 		
+		specificType = CannonShuffle.ENEMY_BULLET;
+		
 	}
 
 	public void remove() {

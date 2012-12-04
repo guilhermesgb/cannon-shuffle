@@ -39,6 +39,9 @@ public class Wall extends GameEntity {
 		bodyShape.dispose();
 		
 		body.setUserData(this);
+		
+		generalType = CannonShuffle.WALL;
+		specificType = CannonShuffle.WALL;
 	}
 
 }

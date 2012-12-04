@@ -52,4 +52,8 @@ public abstract class GameEntity {
 	public Vector2 getPosition(){
 		return body.getPosition();
 	}
+	
+	public boolean hasType(String type){
+		return type.equals(generalType) || type.equals(specificType); 
+	}
 }
