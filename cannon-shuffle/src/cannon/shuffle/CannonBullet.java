@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public class CannonBullet extends Bullet {
 
 	boolean first_collision_happened = false;
-	public int damage = 10;
 	
 	public CannonBullet(World world, Vector2 pos, float angle){
 		super(BodyType.DynamicBody, pos, angle, world);
@@ -41,6 +40,7 @@ public class CannonBullet extends Bullet {
 		body.setUserData(this);
 		
 		specificType = CannonShuffle.CANNON_BULLET;
+		damage = 10;
 	}
 
 	public void update(){

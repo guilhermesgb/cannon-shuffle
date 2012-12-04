@@ -152,15 +152,19 @@ public class CannonShuffle implements ApplicationListener{
 			b.update();
 		}
 		
-		Iterator<Enemy> itr_pawn = enemies.iterator();
-		while ( itr_pawn.hasNext() ){
-			Enemy e = itr_pawn.next();
+		Iterator<Enemy> itr_enemies = enemies.iterator();
+		while ( itr_enemies.hasNext() ){
+			Enemy e = itr_enemies.next();
 			if( e.destroyed ){
-				itr_pawn.remove();
+				itr_enemies.remove();
 				e.remove();
 			}
 			e.draw(batch);
 			e.update();
+		}
+		
+		if ( enemies.size < 1 ){
+			enemies.add(new Enemy(world, new Vector2(Constants.WORLD_WIDTH*(0.1f+4.0f/5.0f*(float)Math.random()),Constants.WORLD_HEIGHT*3/4), 0));
 		}
 		
 		Iterator<Explosion> itr_explosion = explosions.iterator();

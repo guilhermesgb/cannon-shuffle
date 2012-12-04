@@ -12,8 +12,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class EnemyBullet extends Bullet{
 
-	public int damage = 5;
-	
 	public EnemyBullet(Vector2 pos, World world, float angle){
 		super(BodyType.DynamicBody, pos, angle, world);
 
@@ -39,11 +37,13 @@ public class EnemyBullet extends Bullet{
 		body.setUserData(this);
 		
 		specificType = CannonShuffle.ENEMY_BULLET;
+		damage = 5;
 		
 	}
 
 	public void update(){
 		super.update();
+		System.out.println("yes happeing");
 		body.setLinearVelocity(new Vector2(0,-4.0f));
 	}
 
