@@ -8,6 +8,7 @@ public abstract class Bullet extends GameEntity{
 
 	public Bullet(BodyType bodyType, Vector2 pos, float angle, World world) {
 		super(bodyType, pos, angle, world);
+		generalType = CannonShuffle.BULLET;
 	}
 
 	/**

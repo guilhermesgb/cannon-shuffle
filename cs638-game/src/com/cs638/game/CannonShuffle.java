@@ -94,18 +94,18 @@ public class CannonShuffle implements ApplicationListener{
 		
 		ground = new Array<Wall>();
 		for ( int i=0; i<=Constants.WORLD_WIDTH/Constants.WALL_WIDTH; i++){
-			ground.add(Wall.newWall(world, new Vector2(i*(Constants.WALL_WIDTH), Constants.WALL_HEIGHT/2), true));
+			ground.add(new Wall(world, new Vector2(i*(Constants.WALL_WIDTH), Constants.WALL_HEIGHT/2), true));
 		}
 		leftWall = new Array<Wall>();
 		for ( int i=0; i<=(Constants.WORLD_HEIGHT/Constants.WALL_HEIGHT) + 30; i++){
-			leftWall.add(Wall.newWall(world, new Vector2((-1)*Constants.WALL_WIDTH, Constants.WALL_HEIGHT/2+Constants.WALL_HEIGHT * i), false));
+			leftWall.add(new Wall(world, new Vector2((-1)*Constants.WALL_WIDTH, Constants.WALL_HEIGHT/2+Constants.WALL_HEIGHT * i), false));
 		}
 		rightWall = new Array<Wall>();
 		for ( int i=0; i<=(Constants.WORLD_HEIGHT/Constants.WALL_HEIGHT) + 30; i++){
-			rightWall.add(Wall.newWall(world, new Vector2(Constants.WORLD_WIDTH + Constants.WALL_WIDTH, Constants.WALL_HEIGHT/2+Constants.WALL_HEIGHT*i), false));
+			rightWall.add(new Wall(world, new Vector2(Constants.WORLD_WIDTH + Constants.WALL_WIDTH, Constants.WALL_HEIGHT/2+Constants.WALL_HEIGHT*i), false));
 		}
 
-		cannon = Cannon.newCannon(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), (Constants.WALL_HEIGHT)+(Constants.CANNON_CIRCLE_RADIUS+Constants.CANNON_RECT_HEIGHT)/2));
+		cannon = new Cannon(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), (Constants.WALL_HEIGHT)+(Constants.CANNON_CIRCLE_RADIUS+Constants.CANNON_RECT_HEIGHT)/2));
 		barrel = Barrel.newBarrel(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), Constants.CANNON_RECT_HEIGHT+(Constants.WALL_HEIGHT)));
 		cannon_bullets = new Array<CannonBullet>();
 

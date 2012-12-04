@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -20,7 +21,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class Barrel {
+public class Barrel extends GameEntity{
 
 	public Body barrel_body;
 	public Body shield_body;
@@ -49,7 +50,12 @@ public class Barrel {
 		public float protection =0.5f;
 	}
 	
-	public Barrel(TextureRegion barrelRegion, TextureRegion shieldRegion, Vector2 pos, World world, int boxIndex, int collisionGroup){
+	public Barrel(World world, Vector2 pos){
+		
+		super(BodyType.StaticBody, pos, 0, world); //Will be overriden
+		
+		TextureRegion barrelRegion = new TextureRegion(new Texture(Gdx.files.internal("barrel.png")), Constants.BARREL_WIDTH, Constants.BARREL_HEIGHT);
+		TextureRegion shieldRegion = new TextureRegion(new Texture(Gdx.files.internal("shield.png")), Constants.BARREL_WIDTH, Constants.BARREL_HEIGHT);
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.KinematicBody;
@@ -111,11 +117,6 @@ public class Barrel {
 		chainShape.dispose();
 	}
 	
-	public static Barrel newBarrel(World world, Vector2 position) {
-		TextureRegion barrelRegion = new TextureRegion(new Texture(Gdx.files.internal("barrel.png")), Constants.BARREL_WIDTH, Constants.BARREL_HEIGHT);
-		TextureRegion shieldRegion = new TextureRegion(new Texture(Gdx.files.internal("shield.png")), Constants.BARREL_WIDTH, Constants.BARREL_HEIGHT);
-		return new Barrel(barrelRegion, shieldRegion, position, world, 1, 1);
-	}
 	public float chargeRatio(){
 		float ratio = ((TimeUtils.millis()-onTouchTime) / (float)maxTouchTime);
 		if(ratio>1)
@@ -160,10 +161,9 @@ public class Barrel {
 		if(target_angle<-barrelSizeRadians||target_angle>=Math.PI)
 			target_angle=-barrelSizeRadians;
 			
-		Vector2 cannon_semicircle_center=cannon.body.getWorldCenter();//new Vector2(Constants.WORLD_WIDTH/2+128/2,136);
+		Vector2 cannon_semicircle_center=cannon.body.getWorldCenter();
 		cannon_semicircle_center.x=BaseBoxObject.convertToWorld(cannon_semicircle_center.x);
 		cannon_semicircle_center.y=BaseBoxObject.convertToWorld(cannon_semicircle_center.y);
-		//cannon_semicircle_center.x-=Constants.CANNON_WIDTH/2;
 		cannon_semicircle_center.y+=Constants.CANNON_CIRCLE_RADIUS;
 		
 		float da=target_angle-angle;
@@ -182,7 +182,7 @@ public class Barrel {
 				bullet_pos.x+=offset*-Math.sin(angle);
 				bullet_pos.y+=offset*Math.cos(angle);
 				
-				CannonBullet bullet = CannonBullet.newBullet(world, bullet_pos, angle);
+				CannonBullet bullet = new CannonBullet(world, bullet_pos, angle);
 				bullets.add(bullet);
 				cannon_semicircle_center=new Vector2(BaseBoxObject.convertToBox(cannon_semicircle_center.x),BaseBoxObject.convertToBox(cannon_semicircle_center.y));
 				float speed = Constants.BULLET_SPEED*power > Constants.MAX_BULLET_SPEED ? Constants.MAX_BULLET_SPEED : Constants.BULLET_SPEED*power;
@@ -207,7 +207,7 @@ public class Barrel {
 
 	public void move(Vector3 touchPos, Cannon cannon){
 
-		Vector2 cannon_semicircle_center=cannon.body.getWorldCenter();//new Vector2(Constants.WORLD_WIDTH/2+128/2,136);
+		Vector2 cannon_semicircle_center=cannon.body.getWorldCenter();
 		cannon_semicircle_center.x=BaseBoxObject.convertToWorld(cannon_semicircle_center.x);
 		cannon_semicircle_center.y=BaseBoxObject.convertToWorld(cannon_semicircle_center.y);
 		cannon_semicircle_center.y+=Constants.CANNON_CIRCLE_RADIUS;

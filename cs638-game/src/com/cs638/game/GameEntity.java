@@ -12,6 +12,9 @@ public abstract class GameEntity {
 	protected Body body;
 	protected TextureWrapper wrapper;
 	protected Vector2 worldPosition;
+	
+	public String generalType;
+	public String specificType;
 
 	private static final float WORLD_TO_BOX=0.01f;
 	private static final float BOX_TO_WORLD=100f;
@@ -24,6 +27,7 @@ public abstract class GameEntity {
 		bodyDef.position.set(convertToBox(pos.x), convertToBox(pos.y));
 		bodyDef.angle=angle;
 		body = world.createBody(bodyDef);
+		worldPosition = new Vector2();
 		
 	}
 

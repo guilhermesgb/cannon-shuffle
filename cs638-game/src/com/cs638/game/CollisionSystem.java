@@ -11,7 +11,7 @@ public class CollisionSystem implements ContactListener{
 
 	Object A, B;
 	
-	public boolean testCollision(String C1, String C2, Object A, Object B){
+	public boolean testCollision(String C1, String C2, GameEntity A, GameEntity B){
 		if ( ((A.getClass().getSimpleName().equals(C1)) && (B.getClass().getSimpleName().equals(C2))) ){
 			this.A = A;
 			this.B = B;
@@ -26,8 +26,8 @@ public class CollisionSystem implements ContactListener{
 	}
 	@Override
 	public void beginContact(Contact contact) {
-		Object A = contact.getFixtureA().getBody().getUserData();
-		Object B = contact.getFixtureB().getBody().getUserData();
+		GameEntity A = (GameEntity) contact.getFixtureA().getBody().getUserData();
+		GameEntity B = (GameEntity) contact.getFixtureB().getBody().getUserData();
 		
 		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.BULLET, A, B) ){
 			Bullet bullet1 = (Bullet) this.A;

@@ -16,7 +16,7 @@ public class CannonBullet extends Bullet {
 	boolean first_collision_happened = false;
 	public int damage = 10;
 	
-	public CannonBullet(Vector2 pos, World world, float angle){
+	public CannonBullet(World world, Vector2 pos, float angle){
 		super(BodyType.DynamicBody, pos, angle, world);
 
 		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("bullet.png")), Constants.BULLET_WIDTH, Constants.BULLET_HEIGHT), pos);
@@ -40,6 +40,7 @@ public class CannonBullet extends Bullet {
 		
 		body.setUserData(this);
 		
+		specificType = CannonShuffle.CANNON_BULLET;
 	}
 
 	public void remove() {

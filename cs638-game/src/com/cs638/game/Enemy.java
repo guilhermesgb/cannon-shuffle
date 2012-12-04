@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
-public class Enemy extends GameEntityOld {
+public class Enemy extends GameEntity {
 
 	int width;
 	int height;
