@@ -160,7 +160,7 @@ public class CannonShuffle implements ApplicationListener{
 				e.remove();
 			}
 			e.draw(batch);
-			e.update();
+			e.update(world, cannon, bullets);
 		}
 		
 		if ( enemies.size < 1 ){

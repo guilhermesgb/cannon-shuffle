@@ -1,5 +1,7 @@
 package cannon.shuffle;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -53,9 +55,10 @@ public class Enemy extends GameEntity {
 		
 		specificType = CannonShuffle.ENEMY;
 		generalType = CannonShuffle.ENEMY;
+		Vector2 velocity = new Vector2(direction*Constants.ENEMY_SPEED,(int)Math.sin(body.getPosition().x)*Constants.ENEMY_SPEED);
+		body.setLinearVelocity(velocity);
 //		just used for spinning enemy
-//		body.setLinearVelocity(new Vector2(Constants.ENEMY_SPEED,0));
-		body.setAngularVelocity(8.0f);
+		body.setAngularVelocity(0.5f);
 		
 		wrapper.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 	}
@@ -66,17 +69,15 @@ public class Enemy extends GameEntity {
 
 	public void move(World world, Cannon cannon, Array<Bullet> enemy_bullets){
 		//detect the x edges
+		Vector2 velocity = new Vector2(direction*Constants.ENEMY_SPEED, 2*Math.round(((Math.sin(Math.round((Math.random()*2))*body.getPosition().x)*Constants.ENEMY_SPEED))));
+		body.setLinearVelocity(velocity);
 		if(body.getPosition().x<=convertToBox(Constants.ENEMY_WIDTH)){
 			direction*=-1;
-			body.setLinearVelocity(new Vector2(direction*Constants.ENEMY_SPEED,0));
 			body.setTransform((float)(convertToBox(Constants.ENEMY_WIDTH+1)), body.getPosition().y, body.getAngle());
-			System.out.println(body.getPosition().x);
 		}
 		if(body.getPosition().x>=convertToBox(Constants.WORLD_WIDTH-Constants.ENEMY_WIDTH)){
 			direction*=-1;
-			body.setLinearVelocity(new Vector2(direction*Constants.ENEMY_SPEED,0));
 			body.setTransform((float)(convertToBox(Constants.WORLD_WIDTH-Constants.ENEMY_WIDTH-1)), body.getPosition().y, body.getAngle());
-			System.out.println(body.getPosition().x);
 		}
 		if(TimeUtils.millis()-lastFiring>MAX_CHARGING){
 			fire(world,cannon,enemy_bullets);

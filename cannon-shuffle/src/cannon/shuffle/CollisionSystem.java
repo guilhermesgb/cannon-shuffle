@@ -78,16 +78,18 @@ public class CollisionSystem implements ContactListener{
 			CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
 		}
 		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.ENEMY, A, B) ){
-			Bullet bullet = (Bullet) this.A;
-			bullet.destroyed = true;
-			CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
-			Enemy enemy = (Enemy) this.B;
-			enemy.hp -= bullet.damage*(1-enemy.protection);
-			if ( enemy.hp <= 0 ){
-				enemy.destroyed = true;
+			if ( !A.specificType.equals(CannonShuffle.ENEMY_BULLET) && !B.specificType.equals(CannonShuffle.ENEMY_BULLET)  ){
+				Bullet bullet = (Bullet) this.A;
+				bullet.destroyed = true;
+				CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
+				Enemy enemy = (Enemy) this.B;
+				enemy.hp -= bullet.damage*(1-enemy.protection);
+				if ( enemy.hp <= 0 ){
+					enemy.destroyed = true;
+				}
+				System.out.println("damage of " + bullet.damage * ( 1 - enemy.protection ));
+				System.out.println("enemy has " + enemy.hp + " left");
 			}
-			System.out.println("damage of " + bullet.damage * ( 1 - enemy.protection ));
-			System.out.println("enemy has " + enemy.hp + " left");
 		}
 	}
 

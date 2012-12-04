@@ -31,6 +31,7 @@ public class EnemyBullet extends Bullet{
 		fixtureDef.friction=10f;
 		
 		body.createFixture(fixtureDef);
+		body.getFixtureList().get(0).setSensor(true);
 		body.setTransform(body.getPosition(), angle);
 		bodyShape.dispose();
 		
@@ -39,21 +40,21 @@ public class EnemyBullet extends Bullet{
 		specificType = CannonShuffle.ENEMY_BULLET;
 		damage = 5;
 		
+		crushableType = 4;
 	}
 
 	public void update(){
 		super.update();
-		System.out.println("yes happeing");
-		body.setLinearVelocity(new Vector2(0,-4.0f));
+		body.setLinearVelocity(new Vector2(0,-8.0f));
 	}
 
 	@Override
 	public Explosion getExplosion(boolean lerpWithTarget, Vector2 targetPosition, float factor) {
 		if ( lerpWithTarget ){
-			return new FireExplosion(this.getPosition().lerp(targetPosition, factor));
+			return new IceExplosion(this.getPosition().lerp(targetPosition, factor));
 		}
 		else{
-			return new FireExplosion(this.getPosition());
+			return new IceExplosion(this.getPosition());
 		}
 	}
 	
