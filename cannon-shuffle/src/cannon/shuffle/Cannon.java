@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Cannon extends GameEntity{
 
-	public TextureWrapper wrapper;
 	public double hp = 1000;
 	public float protection = 0.0f;
 	

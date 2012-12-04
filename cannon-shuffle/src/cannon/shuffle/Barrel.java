@@ -21,7 +21,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class Barrel extends GameEntity{
+public class Barrel{
 
 	public Body barrel_body;
 	public Body shield_body;
@@ -43,16 +43,29 @@ public class Barrel extends GameEntity{
 	public BarrelPart barrel_part;
 	public ShieldPart shield_part;
 
-	class BarrelPart{
+	class BarrelPart extends GameEntity{
 		public float protection = -0.2f;
+
+		public BarrelPart(BodyType bodyType, Vector2 pos, float angle,
+				World world) {
+			super(bodyType, pos, angle, world);
+			generalType = "BarrelPart";
+			specificType = "BarrelPart";
+		}
 	}
-	class ShieldPart{
+	class ShieldPart extends GameEntity{
 		public float protection =0.5f;
+
+		public ShieldPart(BodyType bodyType, Vector2 pos, float angle,
+				World world) {
+			super(bodyType, pos, angle, world);
+			generalType = "ShieldPart";
+			specificType = "ShieldPart";
+			
+		}
 	}
 	
 	public Barrel(World world, Vector2 pos){
-		
-		super(BodyType.StaticBody, pos, 0, world); //Will be overridden
 		
 		TextureRegion barrelRegion = new TextureRegion(new Texture(Gdx.files.internal("barrel.png")), Constants.BARREL_WIDTH, Constants.BARREL_HEIGHT);
 		TextureRegion shieldRegion = new TextureRegion(new Texture(Gdx.files.internal("shield.png")), Constants.BARREL_WIDTH, Constants.BARREL_HEIGHT);
@@ -69,11 +82,12 @@ public class Barrel extends GameEntity{
 		wrapper_shield = new TextureWrapper(new Sprite(shieldRegion.getTexture()), pos);
 		
 		createBarrel(pos, 0.5f, 0f, 0f);
-		barrel_part = new BarrelPart();
-		shield_part = new ShieldPart();
+		barrel_part = new BarrelPart(null, null, -1, null);
+		shield_part = new ShieldPart(null, null, -1, null);
 		barrel_body.setUserData(barrel_part);
 		shield_body.setUserData(shield_part);
 		touchPos = new Vector3();
+		
 	}
 
 	private void createBarrel(Vector2 pos, float density, float restitution, float angle) {

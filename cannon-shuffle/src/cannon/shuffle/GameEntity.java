@@ -21,14 +21,14 @@ public abstract class GameEntity {
 	
 
 	public GameEntity(BodyDef.BodyType bodyType, Vector2 pos, float angle, World world) {
-
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = bodyType;
-		bodyDef.position.set(convertToBox(pos.x), convertToBox(pos.y));
-		bodyDef.angle=angle;
-		body = world.createBody(bodyDef);
-		worldPosition = new Vector2();
-		
+		if ( bodyType != null ){
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.type = bodyType;
+			bodyDef.position.set(convertToBox(pos.x), convertToBox(pos.y));
+			bodyDef.angle=angle;
+			body = world.createBody(bodyDef);
+			worldPosition = new Vector2();
+		}
 	}
 
 	public static float convertToBox(float x){
