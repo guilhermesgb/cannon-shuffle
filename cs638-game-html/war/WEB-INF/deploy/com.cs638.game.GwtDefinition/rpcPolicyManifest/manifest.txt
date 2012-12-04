@@ -1,0 +1,2 @@
+# Module com.cs638.game.GwtDefinition
+# RPC service class, partial path of RPC policy file

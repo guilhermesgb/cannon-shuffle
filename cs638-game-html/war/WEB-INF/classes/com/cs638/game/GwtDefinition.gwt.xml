@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<module>
+    <entry-point class="com.cs638.game.client.GwtLauncher"/>
+    <set-configuration-property name="gdx.assetpath" value="../cs638-game-android/assets"/>
+    <inherits name="CS638"/>
+    <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt"/>
+</module>

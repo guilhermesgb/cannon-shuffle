@@ -1,0 +1,15 @@
+d:
+i:bucket.png
+i:bullet.png
+b:bullet.svg
+i:cannon.png
+b:cannon.svg
+d:data
+i:data/libgdx.png
+a:drop.wav
+i:droplet.png
+i:enemy.png
+i:enemy_bullet.png
+b:enemy_bullet.svg
+i:ground.png
+a:rain.mp3
