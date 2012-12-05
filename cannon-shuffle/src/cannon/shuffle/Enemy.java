@@ -21,7 +21,7 @@ public abstract class Enemy extends GameEntity {
 	double lastFiring = 0;
 	
 	enum EnemyState{
-		ARRIVING, COMBAT;
+		ARRIVING, COMBAT_ACTION_1, COMBAT_ACTION_2;
 	}
 	private EnemyState state;
 	
@@ -38,21 +38,25 @@ public abstract class Enemy extends GameEntity {
 	
 	public void move(){
 		
-		if ( state == EnemyState.COMBAT ){
-			combat();
+		if ( state == EnemyState.COMBAT_ACTION_1 ){
+			combat_action_1();
+		}
+		else if ( state == EnemyState.COMBAT_ACTION_2 ){
+			combat_action_2();
 		}
 		else{
 			float target_angle=(float)(Math.PI/2+Math.atan2((double)this.getPosition().y-CannonShuffle.cannon.getPosition().y,(double)this.getPosition().x-CannonShuffle.cannon.getPosition().x));
 			Vector2 velocity = new Vector2(Constants.ENEMY_SPEED*2*(float)-Math.sin(target_angle), Constants.ENEMY_SPEED*2*(float)Math.cos(target_angle));
 			body.setLinearVelocity(velocity);
 			if ( TimeUtils.millis() - arrivedAt > 1000){
-				state = EnemyState.COMBAT;
+				state = EnemyState.COMBAT_ACTION_1;
 			}
 		}
 		
 	}
 
-	public abstract void combat();
+	public abstract void combat_action_1();
+	public abstract void combat_action_2();
 	public abstract void fire();
 	
 	public void update(){
