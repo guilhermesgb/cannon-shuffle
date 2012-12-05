@@ -45,12 +45,12 @@ public abstract class Enemy extends GameEntity {
 			combat_action_2();
 		}
 		else{
+			if ( TimeUtils.millis() - arrivedAt > 1000 || this.getPosition().y < CannonShuffle.cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*10){
+				state = EnemyState.COMBAT_ACTION_1;
+			}
 			float target_angle=(float)(Math.PI/2+Math.atan2((double)this.getPosition().y-CannonShuffle.cannon.getPosition().y,(double)this.getPosition().x-CannonShuffle.cannon.getPosition().x));
 			Vector2 velocity = new Vector2(Constants.ENEMY_SPEED*2*(float)-Math.sin(target_angle), Constants.ENEMY_SPEED*2*(float)Math.cos(target_angle));
 			body.setLinearVelocity(velocity);
-			if ( TimeUtils.millis() - arrivedAt > 1000){
-				state = EnemyState.COMBAT_ACTION_1;
-			}
 		}
 		
 	}
