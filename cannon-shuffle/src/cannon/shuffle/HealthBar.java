@@ -32,29 +32,34 @@ public class HealthBar {
 	
 	public void draw(SpriteBatch batch){
 		if ( tracked.hp == lastValue ){
+			healthGauge.draw(batch);
+			healthBar.draw(batch);
+			return;
 		}
 		else if ( tracked.hp <= 0 ){
 			gaugeWidth = 1;
-			healthGauge = new TextureWrapper(new TextureRegion(new Texture("health_gauge.png"), gaugeWidth, Constants.HEALTH_BAR_HEIGHT), position){
-				public void draw(SpriteBatch sp){
-
-					sp.draw(region, position.x, position.y-height/2,
-							originX, originY, width, height,
-							scaleX, scaleY, rotation);
-				}
-			};
 		}
 		else{
 			gaugeWidth = (int) Math.round(((tracked.hp / maxValue) * Constants.HEALTH_BAR_WIDTH));
-			healthGauge = new TextureWrapper(new TextureRegion(new Texture("health_gauge.png"), gaugeWidth, Constants.HEALTH_BAR_HEIGHT), position){
-				public void draw(SpriteBatch sp){
-
-					sp.draw(region, position.x, position.y-height/2,
-							originX, originY, width, height,
-							scaleX, scaleY, rotation);
-				}
-			};
 		}
+		String gauge_name = "health_gauge";
+		if ( (tracked.hp / maxValue) <= .25 ){
+			gauge_name += "_bad.png";
+		}
+		else if ( (tracked.hp / maxValue) <= .6 ){
+			gauge_name += "_medium.png";
+		}
+		else{
+			gauge_name += "_good.png";
+		}
+		healthGauge = new TextureWrapper(new TextureRegion(new Texture(gauge_name), gaugeWidth, Constants.HEALTH_BAR_HEIGHT), position){
+			public void draw(SpriteBatch sp){
+				
+				sp.draw(region, position.x, position.y-height/2,
+						originX, originY, width, height,
+						scaleX, scaleY, rotation);
+			}
+		};
 		healthGauge.draw(batch);
 		healthBar.draw(batch);
 	}
