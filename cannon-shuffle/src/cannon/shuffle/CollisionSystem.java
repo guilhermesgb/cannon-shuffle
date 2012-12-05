@@ -70,9 +70,12 @@ public class CollisionSystem implements ContactListener{
 			CannonShuffle.cannon.hp -= bullet.damage*(1-CannonShuffle.cannon.protection);
 		}
 		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.WALL, A, B) ){
-			Bullet bullet = (Bullet) this.A;
-			bullet.destroyed = true;
-			CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
+			Wall wall = (Wall) this.B;
+			if ( !wall.is_invisible ){
+				Bullet bullet = (Bullet) this.A;
+				bullet.destroyed = true;
+				CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
+			}
 		}
 		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.ENEMY, A, B) ){
 			Bullet bullet = (Bullet) this.A;
