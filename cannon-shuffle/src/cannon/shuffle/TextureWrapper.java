@@ -7,15 +7,15 @@ import com.badlogic.gdx.math.Vector2;
 
 public class TextureWrapper{
 
-	private TextureRegion region;
-	private int width;
-	private int height;
-	private Vector2 position;
-	private float scaleX;
-	private float scaleY;
-	private float originX;
-	private float originY;
-	private float rotation;
+	public TextureRegion region;
+	public int width;
+	public int height;
+	public Vector2 position;
+	public float scaleX;
+	public float scaleY;
+	public float originX;
+	public float originY;
+	public float rotation;
 	
 	public TextureWrapper(TextureRegion region,Vector2 pos){
 
@@ -55,7 +55,7 @@ public class TextureWrapper{
 				originX, originY, width, height,
 				scaleX, scaleY, rotation);
 	}
-
+	
 	public void setPosition(Vector2 worldPosition) {
 
 		position = worldPosition;

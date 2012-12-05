@@ -36,6 +36,8 @@ public class CannonShuffle implements ApplicationListener{
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 
+	private static HealthBar healthBar;
+	
 	private Array<Wall> ground;
 	private Array<Wall> leftWall;
 	private Array<Wall> rightWall;
@@ -104,6 +106,8 @@ public class CannonShuffle implements ApplicationListener{
 		}
 
 		cannon = new Cannon(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), (Constants.WALL_HEIGHT)+(Constants.CANNON_CIRCLE_RADIUS+Constants.CANNON_RECT_HEIGHT)/2));
+		healthBar = new HealthBar(cannon, new Vector2(Constants.HEALTH_BAR_X, Constants.HEALTH_BAR_Y));
+		
 		barrel = new Barrel(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), Constants.CANNON_RECT_HEIGHT+(Constants.WALL_HEIGHT)));
 		bullets = new Array<Bullet>();
 
@@ -130,6 +134,8 @@ public class CannonShuffle implements ApplicationListener{
 
 		cannon.draw(batch);
 		cannon.update();
+
+		barrel.update(world, batch, cannon, bullets, camera);
 		
 		for ( Wall p : ground ){
 			p.draw(batch);
@@ -180,7 +186,8 @@ public class CannonShuffle implements ApplicationListener{
 			}
 		}
 
-		barrel.update(world, batch, cannon, bullets, camera);
+		healthBar.draw(batch);
+		
 		batch.end();
 
 		if ( Gdx.input.isKeyPressed(Keys.ESCAPE)){
@@ -192,6 +199,7 @@ public class CannonShuffle implements ApplicationListener{
 		if ( cannon.hp < 0 ){
 			System.exit(0);
 		}
+
 	}
 
 	@Override

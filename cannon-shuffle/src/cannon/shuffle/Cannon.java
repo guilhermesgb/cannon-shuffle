@@ -13,10 +13,9 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Cannon extends GameEntity{
 
-	public double hp = 1000;
-	
 	public Cannon(World world, Vector2 pos){
 		super(BodyType.StaticBody, pos, 0, world);
+		hp = 1000;
 		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("cannon.png")), Constants.CANNON_CIRCLE_WIDTH, Constants.CANNON_CIRCLE_RADIUS + Constants.CANNON_RECT_HEIGHT), pos);
 		createCannon(wrapper, pos, 0.5f, 0f, 0f);
 		body.setUserData(this);

@@ -7,8 +7,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public abstract class Enemy extends GameEntity {
 
-	public double hp = 5;
-	
 	public boolean destroyed = false;
 	public boolean first_collision_happened = false;
 
