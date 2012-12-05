@@ -59,8 +59,6 @@ public class CannonShuffle implements ApplicationListener{
 	public static final String BULLET = "Bullet";
 	//Specific Types
 	public static final String CANNON_BULLET = "CannonBullet";
-	public static final String ENEMY_BULLET = "EnemyBullet";
-	//Even More Specific Types
 	public static final String ICE_BULLET = "IceBullet";
 	
 	public static Array<Explosion> explosions = new Array<Explosion>();

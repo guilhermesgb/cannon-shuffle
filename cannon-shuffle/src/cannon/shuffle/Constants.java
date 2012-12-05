@@ -35,8 +35,8 @@ public abstract class Constants {
 	public static final float BARREL_CIRCLE_RADIUS = 66;
 	public static final float BARREL_RECT_HEIGHT = (128-66)/2;
 
-	public static final int ENEMY_BULLET_HEIGHT = 32;
-	public static final int ENEMY_BULLET_WIDTH = 8;
+	public static final int ICE_BULLET_HEIGHT = 32;
+	public static final int ICE_BULLET_WIDTH = 8;
 	public static final int PAWN_WIDTH = 32;
 	public static final int PAWN_HEIGHT = 32;
 	

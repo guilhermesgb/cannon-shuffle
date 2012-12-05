@@ -10,7 +10,7 @@ import cannon.shuffle.Barrel.ShieldPart;
 public class CollisionSystem implements ContactListener{
 
 	Object A, B;
-	
+
 	public boolean testCollision(String C1, String C2, GameEntity A, GameEntity B){
 		if ( ((A.hasType(C1)) && (B.hasType(C2))) ){
 			this.A = A;
@@ -28,7 +28,7 @@ public class CollisionSystem implements ContactListener{
 	public void beginContact(Contact contact) {
 		GameEntity A = (GameEntity) contact.getFixtureA().getBody().getUserData();
 		GameEntity B = (GameEntity) contact.getFixtureB().getBody().getUserData();
-		
+
 		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.BULLET, A, B) ){
 			Bullet bullet1 = (Bullet) this.A;
 			Bullet bullet2 = (Bullet) this.B;
@@ -72,8 +72,8 @@ public class CollisionSystem implements ContactListener{
 			CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
 		}
 		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.ENEMY, A, B) ){
-			if ( !A.specificType.equals(CannonShuffle.ENEMY_BULLET) && !B.specificType.equals(CannonShuffle.ENEMY_BULLET)  ){
-				Bullet bullet = (Bullet) this.A;
+			Bullet bullet = (Bullet) this.A;
+			if ( !bullet.is_enemy_attack ){
 				bullet.destroyed = true;
 				CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
 				Enemy enemy = (Enemy) this.B;
@@ -88,7 +88,7 @@ public class CollisionSystem implements ContactListener{
 	@Override
 	public void endContact(Contact contact) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class CollisionSystem implements ContactListener{
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

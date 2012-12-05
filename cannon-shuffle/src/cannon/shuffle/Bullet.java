@@ -6,9 +6,10 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class Bullet extends GameEntity{
 
-	public Bullet(BodyType bodyType, Vector2 pos, float angle, World world) {
+	public Bullet(BodyType bodyType, Vector2 pos, float angle, World world, boolean shot_by_enemy) {
 		super(bodyType, pos, angle, world);
 		generalType = CannonShuffle.BULLET;
+		is_enemy_attack = shot_by_enemy;
 	}
 
 	/**
@@ -29,6 +30,11 @@ public abstract class Bullet extends GameEntity{
 	 * The amount of damage this bullet inflicts once it hits something.
 	 */
 	public int damage = 0;
+	
+	/**
+	 * Determines whether this bullet was shot by an enemy.
+	 */
+	public boolean is_enemy_attack = false;
 	
 	/**
 	 * Returns the specific explosion type that this Bullet causes at the right position;

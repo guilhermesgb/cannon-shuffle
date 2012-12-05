@@ -86,7 +86,7 @@ public class Pawn extends Enemy {
 	public void fire() {
 		Vector2 bullet_position = new Vector2(convertToWorld(body.getPosition().x),convertToWorld(body.getPosition().y));
 		bullet_position = bullet_position.add(new Vector2(0, -Constants.ENEMY_HEIGHT/2-Constants.BULLET_HEIGHT/2));
-		Bullet bullet = new EnemyBullet(bullet_position, CannonShuffle.world, 0);
+		Bullet bullet = new IceBullet(bullet_position, CannonShuffle.world, 0, true);
 		float target_angle=(float)(Math.PI/2+Math.atan2((double)this.getPosition().y-CannonShuffle.cannon.getPosition().y,(double)this.getPosition().x-CannonShuffle.cannon.getPosition().x));
 		bullet.body.setLinearVelocity(new Vector2((float)((-4f)*Math.sin(target_angle)), (float)((2f)*Math.cos(target_angle))));
 		CannonShuffle.bullets.add(bullet);

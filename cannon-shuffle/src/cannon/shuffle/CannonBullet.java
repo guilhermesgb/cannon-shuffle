@@ -15,8 +15,8 @@ public class CannonBullet extends Bullet {
 
 	boolean first_collision_happened = false;
 	
-	public CannonBullet(World world, Vector2 pos, float angle){
-		super(BodyType.DynamicBody, pos, angle, world);
+	public CannonBullet(World world, Vector2 pos, float angle, boolean shot_by_enemy){
+		super(BodyType.DynamicBody, pos, angle, world, shot_by_enemy);
 
 		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("bullet.png")), Constants.BULLET_WIDTH, Constants.BULLET_HEIGHT), pos);
 		wrapper.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);

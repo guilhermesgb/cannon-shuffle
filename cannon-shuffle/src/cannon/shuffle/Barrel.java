@@ -195,7 +195,7 @@ public class Barrel{
 				bullet_pos.x+=offset*-Math.sin(angle);
 				bullet_pos.y+=offset*Math.cos(angle);
 				
-				CannonBullet bullet = new CannonBullet(world, bullet_pos, angle);
+				CannonBullet bullet = new CannonBullet(world, bullet_pos, angle, false);
 				bullets.add(bullet);
 				cannon_semicircle_center=new Vector2(GameEntity.convertToBox(cannon_semicircle_center.x),GameEntity.convertToBox(cannon_semicircle_center.y));
 				float speed = Constants.BULLET_SPEED*power > Constants.MAX_BULLET_SPEED ? Constants.MAX_BULLET_SPEED : Constants.BULLET_SPEED*power;
