@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -45,7 +46,10 @@ public class EnemyBullet extends Bullet{
 
 	public void update(){
 		super.update();
-		body.setLinearVelocity(new Vector2(0,-2.0f));
+
+		wrapper.setRotation(body.getAngle()*MathUtils.radiansToDegrees);
+		double angle=Math.atan2(body.getLinearVelocity().y,body.getLinearVelocity().x)-Math.PI/2;
+		body.setTransform(body.getPosition(), (float)angle);
 	}
 
 	@Override

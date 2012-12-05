@@ -28,7 +28,7 @@ public abstract class Enemy extends GameEntity {
 	double arrivedAt = TimeUtils.millis();
 	
 	public Enemy(World world, Vector2 pos, float angle){
-		super(BodyDef.BodyType.KinematicBody, pos, angle, world);
+		super(BodyDef.BodyType.DynamicBody, pos, angle, world);
 		state = EnemyState.ARRIVING;
 	}
 

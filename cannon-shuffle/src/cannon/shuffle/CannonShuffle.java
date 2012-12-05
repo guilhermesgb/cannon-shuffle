@@ -39,6 +39,7 @@ public class CannonShuffle implements ApplicationListener{
 	private Array<Wall> ground;
 	private Array<Wall> leftWall;
 	private Array<Wall> rightWall;
+
 	public static final String WALL = "Wall";
 	
 	public static Cannon cannon;
@@ -72,6 +73,8 @@ public class CannonShuffle implements ApplicationListener{
 	public static final String ENEMY = "Enemy";
 	//Specific Types
 	public static final String PAWN = "Pawn";
+
+	private int num_destroyed_enemies = 0;
 	
 	@Override
 	public void create() {
@@ -156,6 +159,7 @@ public class CannonShuffle implements ApplicationListener{
 		while ( itr_enemies.hasNext() ){
 			Enemy e = itr_enemies.next();
 			if( e.destroyed ){
+				num_destroyed_enemies++;
 				itr_enemies.remove();
 				e.remove();
 			}
@@ -180,6 +184,12 @@ public class CannonShuffle implements ApplicationListener{
 		batch.end();
 
 		if ( Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			System.exit(0);
+		}
+		
+		System.out.println("Cannon HP: "+cannon.hp+" - # destroyed enemies: "+num_destroyed_enemies );
+		
+		if ( cannon.hp < 0 ){
 			System.exit(0);
 		}
 	}

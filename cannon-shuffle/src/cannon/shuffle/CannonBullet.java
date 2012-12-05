@@ -38,6 +38,7 @@ public class CannonBullet extends Bullet {
 		bodyShape.dispose();
 		
 		body.setUserData(this);
+		body.getFixtureList().get(0).setSensor(true);
 		
 		specificType = CannonShuffle.CANNON_BULLET;
 		damage = 10;
@@ -49,7 +50,7 @@ public class CannonBullet extends Bullet {
 		
 		if ( !first_collision_happened ){
 			double angle=Math.atan2(body.getLinearVelocity().y,body.getLinearVelocity().x)-Math.PI/2;
-				body.setTransform(body.getPosition(), (float)angle);
+			body.setTransform(body.getPosition(), (float)angle);
 		}
 	}
 

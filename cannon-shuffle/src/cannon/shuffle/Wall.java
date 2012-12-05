@@ -36,6 +36,7 @@ public class Wall extends GameEntity {
 		fixtureDef.friction=10f;
 		
 		body.createFixture(fixtureDef);
+		body.getFixtureList().get(0).setSensor(true);
 		bodyShape.dispose();
 		
 		body.setUserData(this);
