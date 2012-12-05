@@ -1,4 +1,10 @@
-package cannon.shuffle;
+package cannon.shuffle.bullet;
+
+import cannon.shuffle.CannonShuffle;
+import cannon.shuffle.Constants;
+import cannon.shuffle.TextureWrapper;
+import cannon.shuffle.explosion.Explosion;
+import cannon.shuffle.explosion.IceExplosion;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,14 +17,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class CannonBullet extends Bullet {
+public class IceBullet extends Bullet{
 
-	boolean first_collision_happened = false;
-	
-	public CannonBullet(World world, Vector2 pos, float angle, boolean shot_by_enemy){
+	public IceBullet(Vector2 pos, World world, float angle, boolean shot_by_enemy){
 		super(BodyType.DynamicBody, pos, angle, world, shot_by_enemy);
 
-		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("bullet.png")), Constants.BULLET_WIDTH, Constants.BULLET_HEIGHT), pos);
+		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("ice_bullet.png")), Constants.ICE_BULLET_WIDTH, Constants.ICE_BULLET_HEIGHT), pos);
 		wrapper.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		PolygonShape bodyShape = new PolygonShape();
@@ -34,34 +38,34 @@ public class CannonBullet extends Bullet {
 		fixtureDef.friction=10f;
 		
 		body.createFixture(fixtureDef);
+		body.getFixtureList().get(0).setSensor(true);
 		body.setTransform(body.getPosition(), angle);
 		bodyShape.dispose();
 		
 		body.setUserData(this);
-		body.getFixtureList().get(0).setSensor(true);
 		
-		specificType = CannonShuffle.CANNON_BULLET;
-		damage = 10;
+		specificType = CannonShuffle.ICE_BULLET;
+		damage = 5;
+		
+		crushableType = 4;
 	}
 
 	public void update(){
 		super.update();
+
 		wrapper.setRotation(body.getAngle()*MathUtils.radiansToDegrees);
-		
-		if ( !first_collision_happened ){
-			double angle=Math.atan2(body.getLinearVelocity().y,body.getLinearVelocity().x)-Math.PI/2;
-			body.setTransform(body.getPosition(), (float)angle);
-		}
+		double angle=Math.atan2(body.getLinearVelocity().y,body.getLinearVelocity().x)-Math.PI/2;
+		body.setTransform(body.getPosition(), (float)angle);
 	}
 
 	@Override
 	public Explosion getExplosion(boolean lerpWithTarget, Vector2 targetPosition, float factor) {
 		if ( lerpWithTarget ){
-			return new FireExplosion(this.getPosition().lerp(targetPosition, factor));
+			return new IceExplosion(this.getPosition().lerp(targetPosition, factor));
 		}
 		else{
-			return new FireExplosion(this.getPosition());
+			return new IceExplosion(this.getPosition());
 		}
 	}
-
+	
 }

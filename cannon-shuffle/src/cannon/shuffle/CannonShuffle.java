@@ -2,6 +2,13 @@ package cannon.shuffle;
 
 import java.util.Iterator;
 
+import cannon.shuffle.bullet.Bullet;
+import cannon.shuffle.cannon.Barrel;
+import cannon.shuffle.cannon.Cannon;
+import cannon.shuffle.enemy.Enemy;
+import cannon.shuffle.enemy.Pawn;
+import cannon.shuffle.explosion.Explosion;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;

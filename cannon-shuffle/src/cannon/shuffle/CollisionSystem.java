@@ -1,11 +1,14 @@
 package cannon.shuffle;
 
+import cannon.shuffle.bullet.Bullet;
+import cannon.shuffle.cannon.Barrel.BarrelPart;
+import cannon.shuffle.cannon.Barrel.ShieldPart;
+import cannon.shuffle.enemy.Enemy;
+
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import cannon.shuffle.Barrel.BarrelPart;
-import cannon.shuffle.Barrel.ShieldPart;
 
 public class CollisionSystem implements ContactListener{
 

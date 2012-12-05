@@ -1,4 +1,4 @@
-package cannon.shuffle;
+package cannon.shuffle.explosion;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

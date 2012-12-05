@@ -1,4 +1,10 @@
-package cannon.shuffle;
+package cannon.shuffle.enemy;
+
+import cannon.shuffle.CannonShuffle;
+import cannon.shuffle.Constants;
+import cannon.shuffle.TextureWrapper;
+import cannon.shuffle.bullet.Bullet;
+import cannon.shuffle.bullet.IceBullet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

@@ -1,4 +1,8 @@
-package cannon.shuffle;
+package cannon.shuffle.enemy;
+
+import cannon.shuffle.CannonShuffle;
+import cannon.shuffle.Constants;
+import cannon.shuffle.GameEntity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;

@@ -1,4 +1,11 @@
-package cannon.shuffle;
+package cannon.shuffle.cannon;
+
+import cannon.shuffle.CannonShuffle;
+import cannon.shuffle.Constants;
+import cannon.shuffle.GameEntity;
+import cannon.shuffle.TextureWrapper;
+import cannon.shuffle.bullet.Bullet;
+import cannon.shuffle.bullet.CannonBullet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -43,7 +50,7 @@ public class Barrel{
 	public BarrelPart barrel_part;
 	public ShieldPart shield_part;
 
-	class BarrelPart extends GameEntity{
+	public class BarrelPart extends GameEntity{
 
 		public BarrelPart(BodyType bodyType, Vector2 pos, float angle,
 				World world) {
@@ -53,7 +60,7 @@ public class Barrel{
 			protection = -0.2f;
 		}
 	}
-	class ShieldPart extends GameEntity{
+	public class ShieldPart extends GameEntity{
 
 		public ShieldPart(BodyType bodyType, Vector2 pos, float angle,
 				World world) {
