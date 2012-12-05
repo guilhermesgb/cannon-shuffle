@@ -45,7 +45,7 @@ public class EnemyBullet extends Bullet{
 
 	public void update(){
 		super.update();
-		body.setLinearVelocity(new Vector2(0,-8.0f));
+		body.setLinearVelocity(new Vector2(0,-2.0f));
 	}
 
 	@Override

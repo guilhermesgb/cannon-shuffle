@@ -22,7 +22,7 @@ public class CannonShuffle implements ApplicationListener{
 
 	private Vector2 gravity;
 	private boolean doSleep;
-	private World world;
+	public static World world;
 	
 	public void updatePhysics(float dt){
 
@@ -160,12 +160,12 @@ public class CannonShuffle implements ApplicationListener{
 				e.remove();
 			}
 			e.draw(batch);
-			e.update(world, cannon, bullets);
+			e.update();
 		}
 		
 		float p = 0.99f;
 		if ( Math.random() > p && enemies.size < 5){
-			enemies.add(new Enemy(world, new Vector2(Constants.WORLD_WIDTH*(0.1f+4.0f/5.0f*(float)Math.random()), (float) (Constants.WORLD_HEIGHT )), 0)); //*(Math.random()+2)
+			enemies.add(new Pawn(world, new Vector2(Constants.WORLD_WIDTH*(0.1f+4.0f/5.0f*(float)Math.random()), (float) (Constants.WORLD_HEIGHT )), 0)); //*(Math.random()+2)
 		}
 		
 		Iterator<Explosion> itr_explosion = explosions.iterator();

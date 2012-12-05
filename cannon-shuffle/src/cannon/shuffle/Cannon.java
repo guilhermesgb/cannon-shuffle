@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Cannon extends GameEntity{
 
 	public double hp = 1000;
-	public float protection = 0.0f;
 	
 	public Cannon(World world, Vector2 pos){
 		super(BodyType.StaticBody, pos, 0, world);

@@ -44,24 +44,23 @@ public class Barrel{
 	public ShieldPart shield_part;
 
 	class BarrelPart extends GameEntity{
-		public float protection = -0.2f;
 
 		public BarrelPart(BodyType bodyType, Vector2 pos, float angle,
 				World world) {
 			super(bodyType, pos, angle, world);
 			generalType = CannonShuffle.BARREL_PART;
 			specificType = CannonShuffle.BARREL_PART;
+			protection = -0.2f;
 		}
 	}
 	class ShieldPart extends GameEntity{
-		public float protection =0.5f;
 
 		public ShieldPart(BodyType bodyType, Vector2 pos, float angle,
 				World world) {
 			super(bodyType, pos, angle, world);
 			generalType = CannonShuffle.SHIELD_PART;
 			specificType = CannonShuffle.SHIELD_PART;
-			
+			protection =0.5f;
 		}
 	}
 	

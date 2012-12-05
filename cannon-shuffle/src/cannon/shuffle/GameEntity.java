@@ -19,6 +19,7 @@ public abstract class GameEntity {
 	private static final float WORLD_TO_BOX=0.01f;
 	private static final float BOX_TO_WORLD=100f;
 	
+	public float protection = 0.0f;
 
 	public GameEntity(BodyDef.BodyType bodyType, Vector2 pos, float angle, World world) {
 		if ( bodyType != null ){
