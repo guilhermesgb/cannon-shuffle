@@ -163,7 +163,8 @@ public class CannonShuffle implements ApplicationListener{
 			e.update(world, cannon, bullets);
 		}
 		
-		if ( enemies.size < 1 ){
+		float p = 0.99f;
+		if ( Math.random() > p && enemies.size < 3 ){
 			enemies.add(new Enemy(world, new Vector2(Constants.WORLD_WIDTH*(0.1f+4.0f/5.0f*(float)Math.random()),Constants.WORLD_HEIGHT*3/4), 0));
 		}
 		

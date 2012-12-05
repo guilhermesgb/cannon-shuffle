@@ -1,7 +1,5 @@
 package cannon.shuffle;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -16,7 +14,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class Enemy extends GameEntity {
 
-	public double hp = 30;
+	public double hp = 5;
 	
 	boolean destroyed = false;
 	boolean first_collision_happened = false;
@@ -30,10 +28,14 @@ public class Enemy extends GameEntity {
 	final static int MAX_CHARGING = 700;
 	double lastFiring = 0;
 	
+	//movement-related
+	float amplitude = (float) (Math.random()*2);
+	float half_period = (float) (Math.random()*2);
+
 	public Enemy(World world, Vector2 pos, float angle){
 		super(BodyDef.BodyType.KinematicBody, pos, angle, world);
 
-		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("enemy.png")), Constants.ENEMY_WIDTH, Constants.ENEMY_HEIGHT), pos);
+		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("pawn.png")), Constants.ENEMY_WIDTH, Constants.ENEMY_HEIGHT), pos);
 		
 		PolygonShape bodyShape = new PolygonShape();
 
@@ -66,28 +68,33 @@ public class Enemy extends GameEntity {
 	public void remove() {
 		body.destroyFixture(body.getFixtureList().get(0));
 	}
-
+	
 	public void move(World world, Cannon cannon, Array<Bullet> enemy_bullets){
 		//detect the x edges
-		Vector2 velocity = new Vector2(direction*Constants.ENEMY_SPEED, 2*Math.round(((Math.sin(Math.round((Math.random()*2))*body.getPosition().x)*Constants.ENEMY_SPEED))));
+		float x = direction*Constants.ENEMY_SPEED;
+		float y = amplitude*Math.round(((Math.sin(half_period*body.getPosition().x)*Constants.ENEMY_SPEED)));
+		if ( body.getPosition().y > convertToBox(Constants.WORLD_HEIGHT) ){
+			y = -.01f;
+		}
+		else if ( body.getPosition().y < cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*5 ){
+			y = .01f;
+		}
+		Vector2 velocity = new Vector2(x, y);
 		body.setLinearVelocity(velocity);
-		if(body.getPosition().x<=convertToBox(Constants.ENEMY_WIDTH)){
-			direction*=-1;
-			body.setTransform((float)(convertToBox(Constants.ENEMY_WIDTH+1)), body.getPosition().y, body.getAngle());
+		
+		if(body.getPosition().x<=convertToBox(-Constants.ENEMY_WIDTH)){
+			direction = 1;
 		}
-		if(body.getPosition().x>=convertToBox(Constants.WORLD_WIDTH-Constants.ENEMY_WIDTH)){
-			direction*=-1;
-			body.setTransform((float)(convertToBox(Constants.WORLD_WIDTH-Constants.ENEMY_WIDTH-1)), body.getPosition().y, body.getAngle());
+		if(body.getPosition().x>=convertToBox((Constants.ENEMY_WIDTH)+Constants.WORLD_WIDTH)){//-Constants.ENEMY_WIDTH)){
+			direction = -1;
 		}
-		if(TimeUtils.millis()-lastFiring>MAX_CHARGING){
+		if(TimeUtils.millis()-lastFiring> (Math.random()+2) * MAX_CHARGING){
 			fire(world,cannon,enemy_bullets);
 			lastFiring = (double)TimeUtils.millis();
 		}
 		
 	}
 	public void fire(World world, Cannon cannon, Array<Bullet> bullets){
-			System.out.println(theta);
-			System.out.println("firing weapon!\n");
 			Vector2 bullet_position = new Vector2(convertToWorld(body.getPosition().x),convertToWorld(body.getPosition().y));
 			bullet_position = bullet_position.add(new Vector2(0, -Constants.ENEMY_HEIGHT/2-Constants.BULLET_HEIGHT/2));
 			Bullet bullet = new EnemyBullet(bullet_position, world, 0);

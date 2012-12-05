@@ -25,8 +25,8 @@ public abstract class Constants {
 	static final int BULLET_SPEED = 4;
 	static final int MAX_BULLET_SPEED = 10;
 	
-	static final int ENEMY_WIDTH = 128;
-	static final int ENEMY_HEIGHT = 128;
+	static final int ENEMY_WIDTH = 32;
+	static final int ENEMY_HEIGHT = 32;
 	static final int ENEMY_SPEED = 2;
 	
 	static final int BARREL_WIDTH = 64;
