@@ -30,8 +30,10 @@ public class Enemy extends GameEntity {
 	
 	//movement-related
 	float amplitude = (float) (Math.random()*2);
-	float half_period = (float) (Math.random()*2);
-
+	float half_period = (float) (Math.random()*3);
+	boolean avoidUp = false;
+	boolean avoidDown = false;
+	
 	public Enemy(World world, Vector2 pos, float angle){
 		super(BodyDef.BodyType.KinematicBody, pos, angle, world);
 
@@ -73,11 +75,19 @@ public class Enemy extends GameEntity {
 		//detect the x edges
 		float x = direction*Constants.ENEMY_SPEED;
 		float y = amplitude*Math.round(((Math.sin(half_period*body.getPosition().x)*Constants.ENEMY_SPEED)));
-		if ( body.getPosition().y > convertToBox(Constants.WORLD_HEIGHT) ){
-			y = -.01f;
+		if ( avoidUp && body.getPosition().y < convertToBox(Constants.WORLD_HEIGHT - 2*Constants.ENEMY_HEIGHT) ){
+			avoidUp = false;
 		}
-		else if ( body.getPosition().y < cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*5 ){
-			y = .01f;
+		else if ( avoidDown && body.getPosition().y > convertToBox(cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*7 ) ){
+			avoidDown = false;
+		}
+		else if ( body.getPosition().y > convertToBox(Constants.WORLD_HEIGHT) || avoidUp ){
+			y = -1f;
+			avoidUp = true;
+		}
+		else if ( body.getPosition().y < cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*5 || avoidDown ){
+			y = 1f;
+			avoidDown = true;
 		}
 		Vector2 velocity = new Vector2(x, y);
 		body.setLinearVelocity(velocity);
