@@ -28,7 +28,15 @@ public class Enemy extends GameEntity {
 	final static int MAX_CHARGING = 700;
 	double lastFiring = 0;
 	
+	enum EnemyState{
+		ARRIVING, COMBAT;
+	}
+	private EnemyState state;
+	
 	//movement-related
+	//ARRIVING
+	double arrivedAt = TimeUtils.millis();
+	//COMBAT
 	float amplitude = (float) (Math.random()*2);
 	float half_period = (float) (Math.random()*3);
 	boolean avoidUp = false;
@@ -65,6 +73,8 @@ public class Enemy extends GameEntity {
 		body.setAngularVelocity(0.5f);
 		
 		wrapper.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		state = EnemyState.ARRIVING;
 	}
 
 	public void remove() {
@@ -72,35 +82,48 @@ public class Enemy extends GameEntity {
 	}
 	
 	public void move(World world, Cannon cannon, Array<Bullet> enemy_bullets){
-		//detect the x edges
-		float x = direction*Constants.ENEMY_SPEED;
-		float y = amplitude*Math.round(((Math.sin(half_period*body.getPosition().x)*Constants.ENEMY_SPEED)));
-		if ( avoidUp && body.getPosition().y < convertToBox(Constants.WORLD_HEIGHT - 2*Constants.ENEMY_HEIGHT) ){
-			avoidUp = false;
-		}
-		else if ( avoidDown && body.getPosition().y > convertToBox(cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*7 ) ){
-			avoidDown = false;
-		}
-		else if ( body.getPosition().y > convertToBox(Constants.WORLD_HEIGHT) || avoidUp ){
-			y = -1f;
-			avoidUp = true;
-		}
-		else if ( body.getPosition().y < cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*5 || avoidDown ){
-			y = 1f;
-			avoidDown = true;
-		}
-		Vector2 velocity = new Vector2(x, y);
-		body.setLinearVelocity(velocity);
 		
-		if(body.getPosition().x<=convertToBox(-Constants.ENEMY_WIDTH)){
-			direction = 1;
+		if ( state == EnemyState.COMBAT ){
+
+			float x = direction*Constants.ENEMY_SPEED;
+			float y = amplitude*Math.round(((Math.sin(half_period*body.getPosition().x)*Constants.ENEMY_SPEED)));
+			if ( avoidUp && body.getPosition().y < convertToBox(Constants.WORLD_HEIGHT - 2*Constants.ENEMY_HEIGHT) ){
+				avoidUp = false;
+			}
+			else if ( avoidDown && body.getPosition().y > convertToBox(cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*7 ) ){
+				avoidDown = false;
+			}
+			else if ( body.getPosition().y > convertToBox(Constants.WORLD_HEIGHT) || avoidUp ){
+				y = -1f;
+				avoidUp = true;
+			}
+			else if ( body.getPosition().y < cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*5 || avoidDown ){
+				y = 1f;
+				avoidDown = true;
+			}
+			Vector2 velocity = new Vector2(x, y);
+			body.setLinearVelocity(velocity);
+			
+			if(body.getPosition().x<=convertToBox(-Constants.ENEMY_WIDTH)){
+				direction = 1;
+			}
+			if(body.getPosition().x>=convertToBox((Constants.ENEMY_WIDTH)+Constants.WORLD_WIDTH)){//-Constants.ENEMY_WIDTH)){
+				direction = -1;
+			}
+			if(TimeUtils.millis()-lastFiring> (Math.random()+2) * MAX_CHARGING){
+				fire(world,cannon,enemy_bullets);
+				lastFiring = (double)TimeUtils.millis();
+			}
+			
 		}
-		if(body.getPosition().x>=convertToBox((Constants.ENEMY_WIDTH)+Constants.WORLD_WIDTH)){//-Constants.ENEMY_WIDTH)){
-			direction = -1;
-		}
-		if(TimeUtils.millis()-lastFiring> (Math.random()+2) * MAX_CHARGING){
-			fire(world,cannon,enemy_bullets);
-			lastFiring = (double)TimeUtils.millis();
+		else{
+			System.out.println("arriving");
+			float target_angle=(float)(Math.PI/2+Math.atan2((double)this.getPosition().y-cannon.getPosition().y,(double)this.getPosition().x-cannon.getPosition().x));
+			Vector2 velocity = new Vector2(Constants.ENEMY_SPEED*2*(float)-Math.sin(target_angle), Constants.ENEMY_SPEED*2*(float)Math.cos(target_angle));
+			body.setLinearVelocity(velocity);
+			if ( TimeUtils.millis() - arrivedAt > 1000){
+				state = EnemyState.COMBAT;
+			}
 		}
 		
 	}

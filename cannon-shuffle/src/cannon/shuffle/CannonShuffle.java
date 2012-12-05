@@ -164,8 +164,8 @@ public class CannonShuffle implements ApplicationListener{
 		}
 		
 		float p = 0.99f;
-		if ( Math.random() > p && enemies.size < 5 ){
-			enemies.add(new Enemy(world, new Vector2(Constants.WORLD_WIDTH*(0.1f+4.0f/5.0f*(float)Math.random()),Constants.WORLD_HEIGHT*3/4), 0));
+		if ( Math.random() > p && enemies.size < 5){
+			enemies.add(new Enemy(world, new Vector2(Constants.WORLD_WIDTH*(0.1f+4.0f/5.0f*(float)Math.random()), (float) (Constants.WORLD_HEIGHT )), 0)); //*(Math.random()+2)
 		}
 		
 		Iterator<Explosion> itr_explosion = explosions.iterator();
