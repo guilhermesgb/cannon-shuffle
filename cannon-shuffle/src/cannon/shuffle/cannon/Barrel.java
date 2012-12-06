@@ -91,7 +91,9 @@ public class Barrel{
 		barrel_part = new BarrelPart(null, null, -1, null);
 		shield_part = new ShieldPart(null, null, -1, null);
 		barrel_body.setUserData(barrel_part);
+		barrel_part.body = barrel_body;
 		shield_body.setUserData(shield_part);
+		shield_part.body = shield_body;
 		touchPos = new Vector3();
 		
 	}
@@ -236,6 +238,16 @@ public class Barrel{
 	
 	public void shoot(){
 		has_shot = true;
+	}
+
+	public void destroy(World world) {
+		barrel_part.destroy(world);
+		shield_part.destroy(world);
+	}
+
+	public void setLinearVelocity(Vector2 velocity) {
+		barrel_body.setLinearVelocity(velocity);
+		shield_body.setLinearVelocity(velocity);
 	}
 	
 }

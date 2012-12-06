@@ -35,10 +35,6 @@ public abstract class Enemy extends GameEntity {
 		direction = Math.random() < 0.5 ? 1 : -1;
 	}
 
-	public void remove() {
-		body.destroyFixture(body.getFixtureList().get(0));
-	}
-	
 	public void move(){
 		
 		if ( state == EnemyState.COMBAT_ACTION_1 ){

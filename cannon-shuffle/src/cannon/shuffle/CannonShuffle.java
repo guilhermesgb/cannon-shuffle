@@ -3,7 +3,6 @@ package cannon.shuffle;
 import java.util.Iterator;
 
 import cannon.shuffle.bullet.Bullet;
-import cannon.shuffle.cannon.Barrel;
 import cannon.shuffle.cannon.Cannon;
 import cannon.shuffle.enemy.Enemy;
 import cannon.shuffle.enemy.Pawn;
@@ -40,7 +39,7 @@ public class CannonShuffle implements ApplicationListener{
 	   }
 	}
 	
-	private OrthographicCamera camera;
+	public static OrthographicCamera camera;
 	private SpriteBatch batch;
 
 	private static HealthBar healthBar;
@@ -56,8 +55,6 @@ public class CannonShuffle implements ApplicationListener{
 	
 	public static Cannon cannon;
 	public static final String CANNON = "Cannon";
-
-	public static Barrel barrel;
 	//General Type
 	public static final String BARREL = "Barrel";
 	//Specific Type
@@ -114,12 +111,10 @@ public class CannonShuffle implements ApplicationListener{
 		}
 		
 
-		cannon = new Cannon(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), (Constants.WALL_HEIGHT/2)+(Constants.CANNON_CIRCLE_RADIUS+Constants.CANNON_RECT_HEIGHT)/2));
+		cannon = new Cannon(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), (Constants.WALL_HEIGHT/2)));
 		healthBar = new HealthBar(cannon, new Vector2(Constants.HEALTH_BAR_X, Constants.HEALTH_BAR_Y));
 		
 		enemyBound = new Wall(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), cannon.getPosition().y+6*Constants.ENEMY_HEIGHT), true, 2*(Constants.WORLD_WIDTH+2*Constants.WALL_WIDTH), Constants.WALL_HEIGHT);
-
-		barrel = new Barrel(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), Constants.CANNON_RECT_HEIGHT+(Constants.WALL_HEIGHT/2)));
 		bullets = new Array<Bullet>();
 
 		enemies = new Array<Enemy>();
@@ -131,6 +126,10 @@ public class CannonShuffle implements ApplicationListener{
 		// TODO Auto-generated method stub
 
 	}
+
+	boolean cannon_destroyed = false;
+	float p = 0.999f;
+	float m = 1;
 	
 	@Override
 	public void render() {
@@ -143,10 +142,17 @@ public class CannonShuffle implements ApplicationListener{
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
-		cannon.draw(batch);
+		if ( cannon.hp > 0 ){
+			cannon.draw(batch);
+		}
+		else if (!cannon_destroyed){
+			cannon.destroy(world);
+			cannon_destroyed = true;
+			System.out.println("Destroyed: "+num_destroyed_enemies+" pawns.");
+		}
 		cannon.update();
-
-		barrel.update(world, batch, cannon, bullets, camera);
+		
+		cannon.setLinearVelocity(new Vector2(0, 0.1f));
 		
 		for ( Wall p : ground ){
 			p.draw(batch);
@@ -169,16 +175,17 @@ public class CannonShuffle implements ApplicationListener{
 			if( e.destroyed ){
 				num_destroyed_enemies++;
 				itr_enemies.remove();
-				e.remove();
+				e.destroy(null);
 			}
 			e.draw(batch);
 			e.update();
 		}
 		
-		float p = 0.99f;
-		if ( Math.random() > p && enemies.size < 5){
+		if ( Math.random() > p && enemies.size < m){
 			enemies.add(new Pawn(world, new Vector2(Constants.WORLD_WIDTH*(0.1f+4.0f/5.0f*(float)Math.random()), (float) (Constants.WORLD_HEIGHT )), 0)); //*(Math.random()+2)
+			m += 0.1;
 		}
+		p -= 0.00001;
 		
 		Iterator<Explosion> itr_explosion = explosions.iterator();
 		while ( itr_explosion.hasNext() ){
@@ -207,10 +214,6 @@ public class CannonShuffle implements ApplicationListener{
 			System.exit(0);
 		}
 		
-		if ( cannon.hp < 0 ){
-			System.exit(0);
-		}
-
 	}
 
 	@Override

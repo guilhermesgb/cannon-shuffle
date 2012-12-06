@@ -40,6 +40,7 @@ public class IceBullet extends Bullet{
 		body.createFixture(fixtureDef);
 		body.getFixtureList().get(0).setSensor(true);
 		body.setTransform(body.getPosition(), angle);
+		body.setGravityScale(0.01f);
 		bodyShape.dispose();
 		
 		body.setUserData(this);

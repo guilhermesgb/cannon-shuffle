@@ -8,6 +8,7 @@ import cannon.shuffle.TextureWrapper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -18,8 +19,10 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Cannon extends GameEntity{
 
+	Barrel barrel;
+	
 	public Cannon(World world, Vector2 pos){
-		super(BodyType.StaticBody, pos, 0, world);
+		super(BodyType.KinematicBody, pos.add(new Vector2(0, (Constants.CANNON_CIRCLE_RADIUS+Constants.CANNON_RECT_HEIGHT)/2)), 0, world);
 		hp = 1000;
 		recoverable_hp = 1000;
 		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("cannon.png")), Constants.CANNON_CIRCLE_WIDTH, Constants.CANNON_CIRCLE_RADIUS + Constants.CANNON_RECT_HEIGHT), pos);
@@ -29,6 +32,9 @@ public class Cannon extends GameEntity{
 		
 		generalType = CannonShuffle.CANNON;
 		specificType = CannonShuffle.CANNON;
+		pos.sub(new Vector2(0, (Constants.CANNON_CIRCLE_RADIUS+Constants.CANNON_RECT_HEIGHT)/2));
+		pos.add(new Vector2(0, Constants.CANNON_RECT_HEIGHT));
+		barrel = new Barrel(world, pos);
 	}
 	
 	private void createCannon(TextureWrapper texture, Vector2 pos, float density, float restitution, float angle) {
@@ -54,6 +60,23 @@ public class Cannon extends GameEntity{
 
 		rectShape.dispose();
 		circleShape.dispose();
+	}
+
+	@Override
+	public void draw(SpriteBatch sp){
+		super.draw(sp);
+		barrel.update(CannonShuffle.world, sp, CannonShuffle.cannon, CannonShuffle.bullets, CannonShuffle.camera);
+	}
+
+	@Override
+	public void destroy(World world){
+		super.destroy(world);
+		barrel.destroy(world);
+	}
+	
+	public void setLinearVelocity(Vector2 velocity) {
+		body.setLinearVelocity(velocity);
+		barrel.setLinearVelocity(velocity);
 	}
 
 }

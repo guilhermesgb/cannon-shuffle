@@ -65,4 +65,13 @@ public abstract class GameEntity {
 	public boolean hasType(String type){
 		return type.equals(generalType) || type.equals(specificType); 
 	}
+	
+	public void destroy(World world) {
+		for ( int i=0; i<body.getFixtureList().size(); i++ ){
+			body.destroyFixture(body.getFixtureList().get(i));
+		}
+		if ( world != null ){
+			world.destroyBody(body);
+		}
+	}
 }

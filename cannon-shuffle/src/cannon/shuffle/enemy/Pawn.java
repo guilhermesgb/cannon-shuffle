@@ -45,6 +45,7 @@ public class Pawn extends Enemy {
 		
 		body.createFixture(fixtureDef);
 		body.setTransform(body.getPosition(), angle);
+		body.setAngularVelocity(0.2f);
 		bodyShape.dispose();
 		body.setUserData(this);
 		
@@ -82,7 +83,7 @@ public class Pawn extends Enemy {
 		if(body.getPosition().x>=convertToBox((Constants.ENEMY_WIDTH)+Constants.WORLD_WIDTH)){
 			direction = -1;
 		}
-		if(TimeUtils.millis()-lastFiring> (Math.random()+2) * MAX_CHARGING){
+		if(TimeUtils.millis()-lastFiring> (Math.random()+10) * MAX_CHARGING){
 			fire();
 			lastFiring = (double)TimeUtils.millis();
 		}		
