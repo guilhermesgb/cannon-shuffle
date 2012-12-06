@@ -152,8 +152,6 @@ public class CannonShuffle implements ApplicationListener{
 		}
 		cannon.update();
 		
-		cannon.setLinearVelocity(new Vector2(0, 0.1f));
-		
 		for ( Wall p : ground ){
 			p.draw(batch);
 			p.update();

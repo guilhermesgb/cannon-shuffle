@@ -4,6 +4,7 @@ import cannon.shuffle.CannonShuffle;
 import cannon.shuffle.Constants;
 import cannon.shuffle.GameEntity;
 import cannon.shuffle.TextureWrapper;
+import cannon.shuffle.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -40,10 +42,10 @@ public class Cannon extends GameEntity{
 	private void createCannon(TextureWrapper texture, Vector2 pos, float density, float restitution, float angle) {
 
 		CircleShape circleShape = new CircleShape();
-		circleShape.setRadius(GameEntity.convertToBox(Constants.CANNON_CIRCLE_RADIUS));
+		circleShape.setRadius(Utils.convertToBox(Constants.CANNON_CIRCLE_RADIUS));
 		
 		PolygonShape rectShape = new PolygonShape();
-		rectShape.setAsBox(GameEntity.convertToBox(Constants.CANNON_RECT_WIDTH/2f), GameEntity.convertToBox(Constants.CANNON_RECT_HEIGHT/2f));
+		rectShape.setAsBox(Utils.convertToBox(Constants.CANNON_RECT_WIDTH/2f), Utils.convertToBox(Constants.CANNON_RECT_HEIGHT/2f));
 		
 		FixtureDef fixtureDef=new FixtureDef();
 
@@ -79,4 +81,73 @@ public class Cannon extends GameEntity{
 		barrel.setLinearVelocity(velocity);
 	}
 
+	Vector3 touchInitial = new Vector3();
+	Vector3 touchFinal = new Vector3();
+	private boolean preTouch = true;
+	private boolean postTouch = false;
+	
+	public void old_update(){
+		super.update();
+
+		if ( Gdx.input.isTouched() && ( Utils.isTouchingCannon() || !preTouch ) ){
+			Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+			CannonShuffle.camera.unproject(touchPos);
+			if(preTouch){
+				touchInitial = touchPos;
+				preTouch=false;
+			}
+			touchFinal = touchPos;
+			postTouch=true;
+		}else{
+			preTouch=true;
+			if(postTouch){
+				postTouch=false;
+				if ( Utils.isTouchingCannon(touchFinal) ){
+					//change weapon
+					System.out.println("change weapon");
+				}
+				else{
+					//move cannon
+					System.out.println("move cannon");
+				}
+			}
+		}
+	}
+
+	public void update(){
+		super.update();
+
+		if ( Gdx.input.isTouched() && ( Utils.isTouchingCannon() || preTouch == false ) ){
+			Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+			CannonShuffle.camera.unproject(touchPos);
+			if(preTouch){
+				touchInitial = touchPos;
+				preTouch=false;
+			}
+			touchFinal = touchPos;
+			if ( !Utils.isTouchingCannon(touchFinal) ){
+				float dt = touchFinal.x-touchInitial.x;
+				setLinearVelocity(new Vector2(dt/100,body.getLinearVelocity().y));
+			}
+	//		body.
+//			touchFinal = touchPos;
+			postTouch=true;
+		}else{
+			preTouch=true;
+			if(postTouch){
+				postTouch=false;
+				if ( Utils.isTouchingCannon(touchFinal) ){
+					//change weapon
+					System.out.println("change weapon");
+				}
+				else{
+					//move cannon
+					System.out.println("move cannon");
+				}
+			}
+			setLinearVelocity(new Vector2(body.getLinearVelocity().x*0.96f,body.getLinearVelocity().y));
+			
+		}
+	}
+	
 }

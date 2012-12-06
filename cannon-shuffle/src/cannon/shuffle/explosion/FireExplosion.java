@@ -1,8 +1,8 @@
 package cannon.shuffle.explosion;
 
 import cannon.shuffle.Constants;
-import cannon.shuffle.GameEntity;
 import cannon.shuffle.TextureWrapper;
+import cannon.shuffle.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +21,7 @@ public class FireExplosion extends Explosion{
 	int current_column= 0;
 
 	public FireExplosion(Vector2 position){
-		Vector2 converted = new Vector2(GameEntity.convertToWorld(position.x), GameEntity.convertToWorld(position.y));
+		Vector2 converted = new Vector2(Utils.convertToWorld(position.x), Utils.convertToWorld(position.y));
 
 		wrapper = new TextureWrapper[SPRITES_ROW][SPRITES_COLUMN];
 		

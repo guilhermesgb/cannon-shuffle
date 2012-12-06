@@ -22,8 +22,8 @@ public class Wall extends GameEntity {
 
 		PolygonShape bodyShape = new PolygonShape();
 
-		float w=convertToBox(width/2f);
-		float h=convertToBox(height/2f);
+		float w=Utils.convertToBox(width/2f);
+		float h=Utils.convertToBox(height/2f);
 		bodyShape.setAsBox(w, h);
 
 		FixtureDef fixtureDef=new FixtureDef();

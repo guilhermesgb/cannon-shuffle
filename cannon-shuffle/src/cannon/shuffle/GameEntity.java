@@ -16,9 +16,6 @@ public abstract class GameEntity {
 	public String generalType;
 	public String specificType;
 
-	private static final float WORLD_TO_BOX=0.01f;
-	private static final float BOX_TO_WORLD=100f;
-	
 	public double hp = 1000;
 	public double recoverable_hp = 1000;
 	public float protection = 0.0f;
@@ -27,23 +24,15 @@ public abstract class GameEntity {
 		if ( bodyType != null ){
 			BodyDef bodyDef = new BodyDef();
 			bodyDef.type = bodyType;
-			bodyDef.position.set(convertToBox(pos.x), convertToBox(pos.y));
+			bodyDef.position.set(Utils.convertToBox(pos.x), Utils.convertToBox(pos.y));
 			bodyDef.angle=angle;
 			body = world.createBody(bodyDef);
 			worldPosition = new Vector2();
 		}
 	}
 
-	public static float convertToBox(float x){
-		return x*WORLD_TO_BOX;
-	}
-	
-	public static float convertToWorld(float x){
-		return x*BOX_TO_WORLD;
-	}
-	
 	public void update(){
-		worldPosition.set(convertToWorld(body.getPosition().x),convertToWorld(body.getPosition().y));
+		worldPosition.set(Utils.convertToWorld(body.getPosition().x),Utils.convertToWorld(body.getPosition().y));
 		wrapper.setPosition(worldPosition);
 		wrapper.setRotation(body.getAngle()*MathUtils.radiansToDegrees);
 		if ( hp >= recoverable_hp ){

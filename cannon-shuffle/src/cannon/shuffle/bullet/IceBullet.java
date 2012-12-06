@@ -3,6 +3,7 @@ package cannon.shuffle.bullet;
 import cannon.shuffle.CannonShuffle;
 import cannon.shuffle.Constants;
 import cannon.shuffle.TextureWrapper;
+import cannon.shuffle.Utils;
 import cannon.shuffle.explosion.Explosion;
 import cannon.shuffle.explosion.IceExplosion;
 
@@ -27,8 +28,8 @@ public class IceBullet extends Bullet{
 		
 		PolygonShape bodyShape = new PolygonShape();
 
-		float w=convertToBox(wrapper.getRegion().getRegionWidth()/2f);
-		float h=convertToBox(wrapper.getRegion().getRegionHeight()/2f);
+		float w=Utils.convertToBox(wrapper.getRegion().getRegionWidth()/2f);
+		float h=Utils.convertToBox(wrapper.getRegion().getRegionHeight()/2f);
 		bodyShape.setAsBox(w, h);
 
 		FixtureDef fixtureDef=new FixtureDef();

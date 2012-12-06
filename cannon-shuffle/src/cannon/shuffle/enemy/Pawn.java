@@ -3,6 +3,7 @@ package cannon.shuffle.enemy;
 import cannon.shuffle.CannonShuffle;
 import cannon.shuffle.Constants;
 import cannon.shuffle.TextureWrapper;
+import cannon.shuffle.Utils;
 import cannon.shuffle.bullet.Bullet;
 import cannon.shuffle.bullet.IceBullet;
 
@@ -33,8 +34,8 @@ public class Pawn extends Enemy {
 		
 		PolygonShape bodyShape = new PolygonShape();
 
-		float w=convertToBox(wrapper.getRegion().getRegionWidth()/2f);
-		float h=convertToBox(wrapper.getRegion().getRegionHeight()/2f);
+		float w=Utils.convertToBox(wrapper.getRegion().getRegionWidth()/2f);
+		float h=Utils.convertToBox(wrapper.getRegion().getRegionHeight()/2f);
 		bodyShape.setAsBox(w, h);
 
 		FixtureDef fixtureDef=new FixtureDef();
@@ -60,27 +61,27 @@ public class Pawn extends Enemy {
 	public void combat_action_1() {
 		float x = direction*Constants.ENEMY_SPEED;
 		float y = amplitude*Math.round(((Math.sin(half_period*body.getPosition().x)*Constants.ENEMY_SPEED)));
-		if ( avoidUp && body.getPosition().y < convertToBox(Constants.WORLD_HEIGHT - 2*Constants.ENEMY_HEIGHT) ){
+		if ( avoidUp && body.getPosition().y < Utils.convertToBox(Constants.WORLD_HEIGHT - 2*Constants.ENEMY_HEIGHT) ){
 			avoidUp = false;
 		}
-		else if ( avoidDown && body.getPosition().y > convertToBox(CannonShuffle.cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*7 ) ){
+		else if ( avoidDown && body.getPosition().y > Utils.convertToBox(CannonShuffle.cannon.getPosition().y + Utils.convertToBox(Constants.ENEMY_HEIGHT)*7 ) ){
 			avoidDown = false;
 		}
-		else if ( body.getPosition().y > convertToBox(Constants.WORLD_HEIGHT) || avoidUp ){
+		else if ( body.getPosition().y > Utils.convertToBox(Constants.WORLD_HEIGHT) || avoidUp ){
 			y = -1f;
 			avoidUp = true;
 		}
-		else if ( body.getPosition().y < CannonShuffle.cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*10 || avoidDown ){
+		else if ( body.getPosition().y < CannonShuffle.cannon.getPosition().y + Utils.convertToBox(Constants.ENEMY_HEIGHT)*10 || avoidDown ){
 			y = 1f;
 			avoidDown = true;
 		}
 		Vector2 velocity = new Vector2(x, y);
 		body.setLinearVelocity(velocity);
 		
-		if(body.getPosition().x<=convertToBox(-Constants.ENEMY_WIDTH)){
+		if(body.getPosition().x<=Utils.convertToBox(-Constants.ENEMY_WIDTH)){
 			direction = 1;
 		}
-		if(body.getPosition().x>=convertToBox((Constants.ENEMY_WIDTH)+Constants.WORLD_WIDTH)){
+		if(body.getPosition().x>=Utils.convertToBox((Constants.ENEMY_WIDTH)+Constants.WORLD_WIDTH)){
 			direction = -1;
 		}
 		if(TimeUtils.millis()-lastFiring> (Math.random()+10) * MAX_CHARGING){
@@ -91,7 +92,7 @@ public class Pawn extends Enemy {
 
 	@Override
 	public void fire() {
-		Vector2 bullet_position = new Vector2(convertToWorld(body.getPosition().x),convertToWorld(body.getPosition().y));
+		Vector2 bullet_position = new Vector2(Utils.convertToWorld(body.getPosition().x),Utils.convertToWorld(body.getPosition().y));
 		bullet_position = bullet_position.add(new Vector2(0, -Constants.ENEMY_HEIGHT/2-Constants.BULLET_HEIGHT/2));
 		Bullet bullet = new IceBullet(bullet_position, CannonShuffle.world, 0, true);
 		float target_angle=(float)(Math.PI/2+Math.atan2((double)this.getPosition().y-CannonShuffle.cannon.getPosition().y,(double)this.getPosition().x-CannonShuffle.cannon.getPosition().x));

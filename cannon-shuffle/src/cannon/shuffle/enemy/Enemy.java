@@ -3,6 +3,7 @@ package cannon.shuffle.enemy;
 import cannon.shuffle.CannonShuffle;
 import cannon.shuffle.Constants;
 import cannon.shuffle.GameEntity;
+import cannon.shuffle.Utils;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -44,7 +45,7 @@ public abstract class Enemy extends GameEntity {
 			combat_action_2();
 		}
 		else{
-			if ( TimeUtils.millis() - arrivedAt > 1000 || this.getPosition().y < CannonShuffle.cannon.getPosition().y + convertToBox(Constants.ENEMY_HEIGHT)*10){
+			if ( TimeUtils.millis() - arrivedAt > 1000 || this.getPosition().y < CannonShuffle.cannon.getPosition().y + Utils.convertToBox(Constants.ENEMY_HEIGHT)*10){
 				state = EnemyState.COMBAT_ACTION_1;
 			}
 			float target_angle=(float)(Math.PI/2+Math.atan2((double)this.getPosition().y-CannonShuffle.cannon.getPosition().y,(double)this.getPosition().x-CannonShuffle.cannon.getPosition().x));
