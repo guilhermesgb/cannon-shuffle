@@ -20,6 +20,7 @@ public abstract class GameEntity {
 	private static final float BOX_TO_WORLD=100f;
 	
 	public double hp = 1000;
+	public double recoverable_hp = 1000;
 	public float protection = 0.0f;
 
 	public GameEntity(BodyDef.BodyType bodyType, Vector2 pos, float angle, World world) {
@@ -45,6 +46,12 @@ public abstract class GameEntity {
 		worldPosition.set(convertToWorld(body.getPosition().x),convertToWorld(body.getPosition().y));
 		wrapper.setPosition(worldPosition);
 		wrapper.setRotation(body.getAngle()*MathUtils.radiansToDegrees);
+		if ( hp >= recoverable_hp ){
+			recoverable_hp = hp;
+		}
+		else{
+			recoverable_hp--;
+		}
 	}
 
 	public void draw(SpriteBatch sp){

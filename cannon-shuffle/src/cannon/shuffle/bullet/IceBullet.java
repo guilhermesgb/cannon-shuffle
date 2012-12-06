@@ -45,7 +45,7 @@ public class IceBullet extends Bullet{
 		body.setUserData(this);
 		
 		specificType = CannonShuffle.ICE_BULLET;
-		damage = 5;
+		damage = 50;
 		
 		crushableType = 4;
 	}
