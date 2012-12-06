@@ -32,6 +32,7 @@ public abstract class Enemy extends GameEntity {
 	public Enemy(World world, Vector2 pos, float angle){
 		super(BodyDef.BodyType.DynamicBody, pos, angle, world);
 		state = EnemyState.ARRIVING;
+		direction = Math.random() < 0.5 ? 1 : -1;
 	}
 
 	public void remove() {

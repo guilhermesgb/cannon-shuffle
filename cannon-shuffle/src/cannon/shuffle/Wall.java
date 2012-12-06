@@ -13,19 +13,17 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Wall extends GameEntity {
 
-	boolean is_floor = false;
 	boolean is_invisible = false;
 	
-	public Wall(World world, Vector2 pos, boolean floor, boolean invisible, float width, float height){
+	public Wall(World world, final Vector2 pos, boolean invisible, float width, float height){
 		super(BodyDef.BodyType.StaticBody, pos, 0, world);
 		
-		is_floor = floor;
 		is_invisible = invisible;
 
 		PolygonShape bodyShape = new PolygonShape();
 
-		float w=convertToBox(width);
-		float h=convertToBox(height);
+		float w=convertToBox(width/2f);
+		float h=convertToBox(height/2f);
 		bodyShape.setAsBox(w, h);
 
 		FixtureDef fixtureDef=new FixtureDef();
@@ -35,18 +33,17 @@ public class Wall extends GameEntity {
 		fixtureDef.friction=10f;
 		
 		body.createFixture(fixtureDef);
-		body.getFixtureList().get(0).setSensor(true);
 		bodyShape.dispose();
 		
 		body.setUserData(this);
 		
 		generalType = CannonShuffle.WALL;
 		specificType = CannonShuffle.WALL;
-		
+
 	}
 	
-	public Wall(World world, Vector2 pos, boolean floor, boolean invisible) {
-		this(world, pos, floor, invisible, Constants.WALL_WIDTH, Constants.WALL_HEIGHT);
+	public Wall(World world, final Vector2 pos, boolean invisible) {
+		this(world, pos, invisible, Constants.WALL_WIDTH, Constants.WALL_HEIGHT);
 
 		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("ground.png")), Constants.WALL_WIDTH, Constants.WALL_HEIGHT), pos);
 		wrapper.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);

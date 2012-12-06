@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class CannonBullet extends Bullet {
 
 	boolean first_collision_happened = false;
-	
+
 	public CannonBullet(World world, Vector2 pos, float angle, boolean shot_by_enemy){
 		super(BodyType.DynamicBody, pos, angle, world, shot_by_enemy);
 

@@ -101,25 +101,25 @@ public class CannonShuffle implements ApplicationListener{
 		batch = new SpriteBatch();
 		
 		ground = new Array<Wall>();
-		for ( int i=0; i<=Constants.WORLD_WIDTH/Constants.WALL_WIDTH; i++){
-			ground.add(new Wall(world, new Vector2(i*(Constants.WALL_WIDTH), Constants.WALL_HEIGHT/2), true, false));
+		for ( int i=-2; i<=Constants.WORLD_WIDTH/Constants.WALL_WIDTH + 1; i++){
+			ground.add(new Wall(world, new Vector2(i*(Constants.WALL_WIDTH), 0), false));
 		}
 		leftWall = new Array<Wall>();
 		for ( int i=0; i<=(Constants.WORLD_HEIGHT/Constants.WALL_HEIGHT) + 30; i++){
-			leftWall.add(new Wall(world, new Vector2((-1)*Constants.WALL_WIDTH, Constants.WALL_HEIGHT/2+Constants.WALL_HEIGHT * i), false, false));
+			leftWall.add(new Wall(world, new Vector2((-3)*Constants.WALL_WIDTH, Constants.WALL_HEIGHT/2+Constants.WALL_HEIGHT * i), false));
 		}
 		rightWall = new Array<Wall>();
 		for ( int i=0; i<=(Constants.WORLD_HEIGHT/Constants.WALL_HEIGHT) + 30; i++){
-			rightWall.add(new Wall(world, new Vector2(Constants.WORLD_WIDTH + Constants.WALL_WIDTH, Constants.WALL_HEIGHT/2+Constants.WALL_HEIGHT*i), false, false));
+			rightWall.add(new Wall(world, new Vector2(Constants.WORLD_WIDTH + 2*Constants.WALL_WIDTH, Constants.WALL_HEIGHT/2+Constants.WALL_HEIGHT*i), false));
 		}
 		
 
-		cannon = new Cannon(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), (Constants.WALL_HEIGHT)+(Constants.CANNON_CIRCLE_RADIUS+Constants.CANNON_RECT_HEIGHT)/2));
+		cannon = new Cannon(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), (Constants.WALL_HEIGHT/2)+(Constants.CANNON_CIRCLE_RADIUS+Constants.CANNON_RECT_HEIGHT)/2));
 		healthBar = new HealthBar(cannon, new Vector2(Constants.HEALTH_BAR_X, Constants.HEALTH_BAR_Y));
 		
-		enemyBound = new Wall(world, new Vector2(0f, cannon.getPosition().y+10*Constants.ENEMY_HEIGHT), false, true, Constants.WORLD_WIDTH, Constants.WALL_HEIGHT);
+		enemyBound = new Wall(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), cannon.getPosition().y+6*Constants.ENEMY_HEIGHT), true, 2*(Constants.WORLD_WIDTH+2*Constants.WALL_WIDTH), Constants.WALL_HEIGHT);
 
-		barrel = new Barrel(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), Constants.CANNON_RECT_HEIGHT+(Constants.WALL_HEIGHT)));
+		barrel = new Barrel(world, new Vector2((Constants.WORLD_WIDTH/2) + (Constants.CANNON_CIRCLE_WIDTH/2), Constants.CANNON_RECT_HEIGHT+(Constants.WALL_HEIGHT/2)));
 		bullets = new Array<Bullet>();
 
 		enemies = new Array<Enemy>();
@@ -161,16 +161,7 @@ public class CannonShuffle implements ApplicationListener{
 			p.update();
 		}
 
-		Iterator<Bullet> itr = bullets.iterator();
-		while ( itr.hasNext() ){
-			Bullet b = itr.next();
-			if ( b.destroyed ){
-				itr.remove();
-				b.remove();
-			}
-			b.draw(batch);
-			b.update();
-		}
+		enemyBound.draw(batch);
 		
 		Iterator<Enemy> itr_enemies = enemies.iterator();
 		while ( itr_enemies.hasNext() ){
@@ -197,6 +188,17 @@ public class CannonShuffle implements ApplicationListener{
 			}
 		}
 
+		Iterator<Bullet> itr = bullets.iterator();
+		while ( itr.hasNext() ){
+			Bullet b = itr.next();
+			if ( b.destroyed ){
+				itr.remove();
+				b.remove();
+			}
+			b.draw(batch);
+			b.update();
+		}
+		
 		healthBar.draw(batch);
 		
 		batch.end();
@@ -204,8 +206,6 @@ public class CannonShuffle implements ApplicationListener{
 		if ( Gdx.input.isKeyPressed(Keys.ESCAPE)){
 			System.exit(0);
 		}
-		
-		System.out.println("Cannon HP: "+cannon.hp+" - # destroyed enemies: "+num_destroyed_enemies );
 		
 		if ( cannon.hp < 0 ){
 			System.exit(0);
