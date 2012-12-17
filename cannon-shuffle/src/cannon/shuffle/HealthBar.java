@@ -21,29 +21,32 @@ public class HealthBar {
 	public HealthBar(GameEntity toBeTracked, Vector2 pos){
 		position = pos;
 		healthBar = new TextureWrapper(new TextureRegion(new Texture("health_bar.png"), Constants.HEALTH_BAR_WIDTH, Constants.HEALTH_BAR_HEIGHT), pos){
-			public void draw(SpriteBatch sp){
+			public boolean draw(SpriteBatch sp){
 
 				sp.draw(region, position.x, position.y-height/2,
 						originX, originY, width, height,
 						scaleX, scaleY, rotation);
+				return true;
 			}
 		};
 		gaugeWidth = Constants.HEALTH_BAR_WIDTH;
 		healthGauge = new TextureWrapper(new TextureRegion(new Texture("health_gauge_good.png"), gaugeWidth, Constants.HEALTH_BAR_HEIGHT), pos){
-			public void draw(SpriteBatch sp){
+			public boolean draw(SpriteBatch sp){
 				
 				sp.draw(region, position.x, position.y-height/2,
 						originX, originY, width, height,
 						scaleX, scaleY, rotation);
+				return true;
 			}
 		};
 		recoverableGaugeWidth = Constants.HEALTH_BAR_WIDTH;
 		recoverableHealthGauge = new TextureWrapper(new TextureRegion(new Texture("recoverable_health_gauge_good.png"), recoverableGaugeWidth, Constants.HEALTH_BAR_HEIGHT), pos){
-			public void draw(SpriteBatch sp){
+			public boolean draw(SpriteBatch sp){
 				
 				sp.draw(region, position.x, position.y-height/2,
 						originX, originY, width, height,
 						scaleX, scaleY, rotation);
+				return true;
 			}
 		};
 		tracked = toBeTracked;
@@ -71,11 +74,12 @@ public class HealthBar {
 				gauge_name += "_good.png";
 			}
 			recoverableHealthGauge = new TextureWrapper(new TextureRegion(new Texture(gauge_name), recoverableGaugeWidth, Constants.HEALTH_BAR_HEIGHT), position){
-			public void draw(SpriteBatch sp){
+			public boolean draw(SpriteBatch sp){
 				
 				sp.draw(region, position.x, position.y-height/2,
 						originX, originY, width, height,
 						scaleX, scaleY, rotation);
+				return true;
 				}
 			};
 		}
@@ -103,11 +107,12 @@ public class HealthBar {
 			gauge_name += "_good.png";
 		}
 		healthGauge = new TextureWrapper(new TextureRegion(new Texture(gauge_name), gaugeWidth, Constants.HEALTH_BAR_HEIGHT), position){
-			public void draw(SpriteBatch sp){
+			public boolean draw(SpriteBatch sp){
 				
 				sp.draw(region, position.x, position.y-height/2,
 						originX, originY, width, height,
 						scaleX, scaleY, rotation);
+				return true;
 			}
 		};
 		healthGauge.draw(batch);

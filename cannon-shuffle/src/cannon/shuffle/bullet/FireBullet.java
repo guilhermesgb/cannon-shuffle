@@ -1,16 +1,11 @@
 package cannon.shuffle.bullet;
 
-import cannon.shuffle.CannonShuffle;
 import cannon.shuffle.Constants;
-import cannon.shuffle.TextureWrapper;
+import cannon.shuffle.Entities;
 import cannon.shuffle.Utils;
 import cannon.shuffle.explosion.Explosion;
 import cannon.shuffle.explosion.FireExplosion;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -18,15 +13,14 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class CannonBullet extends Bullet {
+public class FireBullet extends Bullet {
 
 	boolean first_collision_happened = false;
 
-	public CannonBullet(World world, Vector2 pos, float angle, boolean shot_by_enemy){
+	public FireBullet(World world, Vector2 pos, float angle, boolean shot_by_enemy){
 		super(BodyType.DynamicBody, pos, angle, world, shot_by_enemy);
 
-		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("bullet.png")), Constants.BULLET_WIDTH, Constants.BULLET_HEIGHT), pos);
-		wrapper.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		wrapper = new AnimationWrapper("fireball.png", pos, Constants.BULLET_SPRITE_WIDTH, Constants.BULLET_SPRITE_WIDTH_TOTAL, Constants.BULLET_SPRITE_HEIGHT, Constants.BULLET_SPRITE_HEIGHT_TOTAL);
 		
 		PolygonShape bodyShape = new PolygonShape();
 
@@ -47,7 +41,7 @@ public class CannonBullet extends Bullet {
 		body.setUserData(this);
 		body.getFixtureList().get(0).setSensor(true);
 		
-		specificType = CannonShuffle.CANNON_BULLET;
+		specificType = Entities.FIRE_BULLET;
 		damage = 10;
 	}
 

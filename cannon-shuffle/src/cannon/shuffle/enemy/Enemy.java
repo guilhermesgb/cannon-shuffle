@@ -1,9 +1,10 @@
 package cannon.shuffle.enemy;
 
-import cannon.shuffle.CannonShuffle;
 import cannon.shuffle.Constants;
 import cannon.shuffle.GameEntity;
 import cannon.shuffle.Utils;
+import cannon.shuffle.explosion.Explosion;
+import cannon.shuffle.screen.GameScreen;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -26,7 +27,7 @@ public abstract class Enemy extends GameEntity {
 	enum EnemyState{
 		ARRIVING, COMBAT_ACTION_1, COMBAT_ACTION_2;
 	}
-	private EnemyState state;
+	protected EnemyState state;
 	
 	double arrivedAt = TimeUtils.millis();
 	
@@ -45,14 +46,18 @@ public abstract class Enemy extends GameEntity {
 			combat_action_2();
 		}
 		else{
-			if ( TimeUtils.millis() - arrivedAt > 1000 || this.getPosition().y < CannonShuffle.cannon.getPosition().y + Utils.convertToBox(Constants.ENEMY_HEIGHT)*10){
-				state = EnemyState.COMBAT_ACTION_1;
-			}
-			float target_angle=(float)(Math.PI/2+Math.atan2((double)this.getPosition().y-CannonShuffle.cannon.getPosition().y,(double)this.getPosition().x-CannonShuffle.cannon.getPosition().x));
-			Vector2 velocity = new Vector2(Constants.ENEMY_SPEED*2*(float)-Math.sin(target_angle), Constants.ENEMY_SPEED*2*(float)Math.cos(target_angle));
-			body.setLinearVelocity(velocity);
+			arrive();
 		}
 		
+	}
+
+	public void arrive(){
+		if ( TimeUtils.millis() - arrivedAt > 1000 || this.getPosition().y < GameScreen.cannon.getPosition().y + Utils.convertToBox(Constants.ENEMY_HEIGHT)*10){
+			state = EnemyState.COMBAT_ACTION_1;
+		}
+		float target_angle=(float)(Math.PI/2+Math.atan2((double)this.getPosition().y-GameScreen.cannon.getPosition().y,(double)this.getPosition().x-GameScreen.cannon.getPosition().x));
+		Vector2 velocity = new Vector2(Constants.ENEMY_SPEED*2*(float)-Math.sin(target_angle), Constants.ENEMY_SPEED*2*(float)Math.cos(target_angle));
+		body.setLinearVelocity(velocity);
 	}
 
 	public abstract void combat_action_1();
@@ -63,5 +68,7 @@ public abstract class Enemy extends GameEntity {
 		super.update();
 		move();
 	}
+
+	public abstract Explosion getExplosion();
 
 }

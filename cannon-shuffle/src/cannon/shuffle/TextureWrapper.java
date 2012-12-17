@@ -1,5 +1,7 @@
 package cannon.shuffle;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -29,6 +31,12 @@ public class TextureWrapper{
 		scaleY=1;
 	}
 	
+	public TextureWrapper(String spriteSheet, Vector2 pos){
+		this(new TextureRegion(new Texture(Gdx.files.internal(spriteSheet)),
+				new Texture(Gdx.files.internal(spriteSheet)).getWidth(),
+				new Texture(Gdx.files.internal(spriteSheet)).getHeight()), pos);
+	}
+	
 	public int getWidth(){
 
 		return width;
@@ -49,11 +57,12 @@ public class TextureWrapper{
 		rotation=r;
 	}
 
-	public void draw(SpriteBatch sp){
+	public boolean draw(SpriteBatch sp){
 
 		sp.draw(region, position.x-width/2, position.y-height/2,
 				originX, originY, width, height,
 				scaleX, scaleY, rotation);
+		return true;
 	}
 	
 	public void setPosition(Vector2 worldPosition) {

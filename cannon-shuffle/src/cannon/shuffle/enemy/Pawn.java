@@ -1,11 +1,14 @@
 package cannon.shuffle.enemy;
 
-import cannon.shuffle.CannonShuffle;
 import cannon.shuffle.Constants;
+import cannon.shuffle.Entities;
 import cannon.shuffle.TextureWrapper;
 import cannon.shuffle.Utils;
 import cannon.shuffle.bullet.Bullet;
 import cannon.shuffle.bullet.IceBullet;
+import cannon.shuffle.explosion.Explosion;
+import cannon.shuffle.explosion.IceExplosion;
+import cannon.shuffle.screen.GameScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -50,8 +53,8 @@ public class Pawn extends Enemy {
 		bodyShape.dispose();
 		body.setUserData(this);
 		
-		generalType = CannonShuffle.ENEMY;
-		specificType = CannonShuffle.PAWN;
+		generalType = Entities.ENEMY;
+		specificType = Entities.PAWN;
 		
 		wrapper.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 	
@@ -64,14 +67,14 @@ public class Pawn extends Enemy {
 		if ( avoidUp && body.getPosition().y < Utils.convertToBox(Constants.WORLD_HEIGHT - 2*Constants.ENEMY_HEIGHT) ){
 			avoidUp = false;
 		}
-		else if ( avoidDown && body.getPosition().y > Utils.convertToBox(CannonShuffle.cannon.getPosition().y + Utils.convertToBox(Constants.ENEMY_HEIGHT)*7 ) ){
+		else if ( avoidDown && body.getPosition().y > Utils.convertToBox(GameScreen.cannon.getPosition().y + Utils.convertToBox(Constants.ENEMY_HEIGHT)*7 ) ){
 			avoidDown = false;
 		}
 		else if ( body.getPosition().y > Utils.convertToBox(Constants.WORLD_HEIGHT) || avoidUp ){
 			y = -1f;
 			avoidUp = true;
 		}
-		else if ( body.getPosition().y < CannonShuffle.cannon.getPosition().y + Utils.convertToBox(Constants.ENEMY_HEIGHT)*10 || avoidDown ){
+		else if ( body.getPosition().y < GameScreen.cannon.getPosition().y + Utils.convertToBox(Constants.ENEMY_HEIGHT)*10 || avoidDown ){
 			y = 1f;
 			avoidDown = true;
 		}
@@ -94,15 +97,20 @@ public class Pawn extends Enemy {
 	public void fire() {
 		Vector2 bullet_position = new Vector2(Utils.convertToWorld(body.getPosition().x),Utils.convertToWorld(body.getPosition().y));
 		bullet_position = bullet_position.add(new Vector2(0, -Constants.ENEMY_HEIGHT/2-Constants.BULLET_HEIGHT/2));
-		Bullet bullet = new IceBullet(bullet_position, CannonShuffle.world, 0, true);
-		float target_angle=(float)(Math.PI/2+Math.atan2((double)this.getPosition().y-CannonShuffle.cannon.getPosition().y,(double)this.getPosition().x-CannonShuffle.cannon.getPosition().x));
+		Bullet bullet = new IceBullet(bullet_position, GameScreen.world, 0, true);
+		float target_angle=(float)(Math.PI/2+Math.atan2((double)this.getPosition().y-GameScreen.cannon.getPosition().y,(double)this.getPosition().x-GameScreen.cannon.getPosition().x));
 		bullet.body.setLinearVelocity(new Vector2((float)((-4f)*Math.sin(target_angle)), (float)((2f)*Math.cos(target_angle))));
-		CannonShuffle.bullets.add(bullet);
+		GameScreen.bullets.add(bullet);
 	}
 
 	@Override
 	public void combat_action_2() {
 		
+	}
+
+	@Override
+	public Explosion getExplosion() {
+		return new IceExplosion(this.getPosition());
 	}
 	
 }

@@ -37,8 +37,8 @@ public class Wall extends GameEntity {
 		
 		body.setUserData(this);
 		
-		generalType = CannonShuffle.WALL;
-		specificType = CannonShuffle.WALL;
+		generalType = Entities.WALL;
+		specificType = Entities.WALL;
 
 	}
 	

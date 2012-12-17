@@ -1,9 +1,10 @@
 package cannon.shuffle;
 
 import cannon.shuffle.bullet.Bullet;
-import cannon.shuffle.cannon.Barrel.BarrelPart;
-import cannon.shuffle.cannon.Barrel.ShieldPart;
+import cannon.shuffle.cannon.BarrelPart;
+import cannon.shuffle.cannon.ShieldPart;
 import cannon.shuffle.enemy.Enemy;
+import cannon.shuffle.screen.GameScreen;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -32,56 +33,56 @@ public class CollisionSystem implements ContactListener{
 		GameEntity A = (GameEntity) contact.getFixtureA().getBody().getUserData();
 		GameEntity B = (GameEntity) contact.getFixtureB().getBody().getUserData();
 
-		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.BULLET, A, B) ){
+		if ( testCollision(Entities.BULLET, Entities.BULLET, A, B) ){
 			Bullet bullet1 = (Bullet) this.A;
 			Bullet bullet2 = (Bullet) this.B;
 			if ( bullet1.crushableType == bullet2.crushableType ){
 				bullet1.destroyed = true;
 				bullet2.destroyed = true;
-				CannonShuffle.explosions.add(bullet1.getExplosion(true, bullet2.getPosition(), 0.5f));
+				GameScreen.explosions.add(bullet1.getExplosion(true, bullet2.getPosition(), 0.5f));
 			}
 			else if ( bullet1.crushableType < bullet2.crushableType ){
 				bullet1.destroyed = true;
-				CannonShuffle.explosions.add(bullet1.getExplosion(false, null, -1));
+				GameScreen.explosions.add(bullet1.getExplosion(false, null, -1));
 			}
 			else{
 				bullet2.destroyed = true;
-				CannonShuffle.explosions.add(bullet2.getExplosion(false, null, -1));
+				GameScreen.explosions.add(bullet2.getExplosion(false, null, -1));
 			}
 		}
-		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.BARREL_PART, A, B) ){
+		if ( testCollision(Entities.BULLET, Entities.BARREL_PART, A, B) ){
 			Bullet bullet = (Bullet) this.A;
 			bullet.destroyed = true;
-			CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
+			GameScreen.explosions.add(bullet.getExplosion(false, null, -1));
 			BarrelPart barrel = (BarrelPart) this.B;
-			CannonShuffle.cannon.hp -= bullet.damage*(1-barrel.protection);
+			GameScreen.cannon.hp -= bullet.damage*(1-barrel.protection);
 		}
-		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.SHIELD_PART, A, B) ){
+		if ( testCollision(Entities.BULLET, Entities.SHIELD_PART, A, B) ){
 			Bullet bullet = (Bullet) this.A;
 			bullet.destroyed = true;
-			CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
+			GameScreen.explosions.add(bullet.getExplosion(false, null, -1));
 			ShieldPart shield = (ShieldPart) this.B;
-			CannonShuffle.cannon.hp -= bullet.damage*(1-shield.protection);
+			GameScreen.cannon.hp -= bullet.damage*(1-shield.protection);
 		}
-		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.CANNON, A, B) ){
+		if ( testCollision(Entities.BULLET, Entities.CANNON, A, B) ){
 			Bullet bullet = (Bullet) this.A;
 			bullet.destroyed = true;
-			CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
-			CannonShuffle.cannon.hp -= bullet.damage*(1-CannonShuffle.cannon.protection);
+			GameScreen.explosions.add(bullet.getExplosion(false, null, -1));
+			GameScreen.cannon.hp -= bullet.damage*(1-GameScreen.cannon.protection);
 		}
-		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.WALL, A, B) ){
+		if ( testCollision(Entities.BULLET, Entities.WALL, A, B) ){
 			Wall wall = (Wall) this.B;
 			if ( !wall.is_invisible ){
 				Bullet bullet = (Bullet) this.A;
 				bullet.destroyed = true;
-				CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
+				GameScreen.explosions.add(bullet.getExplosion(false, null, -1));
 			}
 		}
-		if ( testCollision(CannonShuffle.BULLET, CannonShuffle.ENEMY, A, B) ){
+		if ( testCollision(Entities.BULLET, Entities.ENEMY, A, B) ){
 			Bullet bullet = (Bullet) this.A;
 			if ( !bullet.is_enemy_attack ){
 				bullet.destroyed = true;
-				CannonShuffle.explosions.add(bullet.getExplosion(false, null, -1));
+				GameScreen.explosions.add(bullet.getExplosion(false, null, -1));
 				Enemy enemy = (Enemy) this.B;
 				enemy.hp -= bullet.damage*(1-enemy.protection);
 				if ( enemy.hp <= 0 ){

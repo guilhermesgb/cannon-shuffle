@@ -44,5 +44,14 @@ public abstract class Constants {
 	public static final int HEALTH_BAR_HEIGHT = 32;
 	public static final float HEALTH_BAR_X = Constants.WORLD_WIDTH/24;
 	public static final float HEALTH_BAR_Y = WORLD_HEIGHT - HEALTH_BAR_HEIGHT*2;
+	public static final float CANNON_WHEEL_RADIUS = 32;
+	public static final int CANNON_WHEEL_DISTANCE = 32;
+	public static final int AD_BLIMP_WIDTH = 256;
+	public static final int AD_BLIMP_HEIGHT = 128;
+	public static final float AD_BLIMP_SPEED = 0.6f;
+	public static final int BULLET_SPRITE_HEIGHT_TOTAL = 64;
+	public static final int BULLET_SPRITE_HEIGHT = 32;
+	public static final int BULLET_SPRITE_WIDTH = 16;
+	public static final int BULLET_SPRITE_WIDTH_TOTAL = 64;
 	
 }

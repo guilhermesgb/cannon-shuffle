@@ -2,15 +2,10 @@ package cannon.shuffle.bullet;
 
 import cannon.shuffle.Constants;
 import cannon.shuffle.Entities;
-import cannon.shuffle.TextureWrapper;
 import cannon.shuffle.Utils;
 import cannon.shuffle.explosion.Explosion;
-import cannon.shuffle.explosion.IceExplosion;
+import cannon.shuffle.explosion.LightningExplosion;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -18,13 +13,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class IceBullet extends Bullet{
+public class LightningBullet extends Bullet {
 
-	public IceBullet(Vector2 pos, World world, float angle, boolean shot_by_enemy){
-		super(BodyType.DynamicBody, pos, angle, world, shot_by_enemy);
+	public LightningBullet(World world, Vector2 pos, float angle, boolean shot_by_enemy){
+		super(BodyType.KinematicBody, pos, angle, world, shot_by_enemy);
 
-		wrapper = new TextureWrapper(new TextureRegion(new Texture(Gdx.files.internal("ice_bullet.png")), Constants.ICE_BULLET_WIDTH, Constants.ICE_BULLET_HEIGHT), pos);
-		wrapper.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		wrapper = new AnimationWrapper("lightning_bullet.png", pos, Constants.EXPLOSION_SPRITE_WIDTH, Constants.EXPLOSION_SPRITE_WIDTH_TOTAL, Constants.EXPLOSION_SPRITE_HEIGHT, Constants.EXPLOSION_SPRITE_HEIGHT_TOTAL);
 		
 		PolygonShape bodyShape = new PolygonShape();
 
@@ -39,35 +33,29 @@ public class IceBullet extends Bullet{
 		fixtureDef.friction=10f;
 		
 		body.createFixture(fixtureDef);
-		body.getFixtureList().get(0).setSensor(true);
 		body.setTransform(body.getPosition(), angle);
-		body.setGravityScale(0.01f);
 		bodyShape.dispose();
 		
 		body.setUserData(this);
+		body.getFixtureList().get(0).setSensor(true);
 		
-		specificType = Entities.ICE_BULLET;
-		damage = 50;
-		
-		crushableType = 4;
+		specificType = Entities.LIGHTNING_BULLET;
+		damage = .2f;
 	}
 
 	public void update(){
 		super.update();
-
 		wrapper.setRotation(body.getAngle()*MathUtils.radiansToDegrees);
-		double angle=Math.atan2(body.getLinearVelocity().y,body.getLinearVelocity().x)-Math.PI/2;
-		body.setTransform(body.getPosition(), (float)angle);
 	}
 
 	@Override
 	public Explosion getExplosion(boolean lerpWithTarget, Vector2 targetPosition, float factor) {
 		if ( lerpWithTarget ){
-			return new IceExplosion(this.getPosition().lerp(targetPosition, factor));
+			return new LightningExplosion(this.getPosition().lerp(targetPosition, factor));
 		}
 		else{
-			return new IceExplosion(this.getPosition());
+			return new LightningExplosion(this.getPosition());
 		}
 	}
-	
+
 }
